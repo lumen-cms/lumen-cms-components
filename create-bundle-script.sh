@@ -1,6 +1,8 @@
 #!/bin/sh
-# entire build
-vue-cli-service build --target lib --name LcContentElements --dest dist/content/ src/components/index.js
+rm -rf ./dist/
+# entire "view" build
+vue-cli-service build --target lib --name LcComponents --dest dist/content/ src/components/view.js
 # each single component
-vue-cli-service build --target lib --name HelloWorld --dest dist/components/HelloWorld/ src/components/HelloWorld.vue
-vue-cli-service build --target lib --name Button --dest dist/components/Button/ src/components/Button.vue
+vue-cli-service build --target lib --name LcContentRenderer --dest dist/components/LcContentRenderer/ src/components/view/LcContentRenderer.js
+vue-cli-service build --target lib --name LcDivider --dest dist/components/LcDivider/ src/components/view/LcDivider.js
+vue-cli-service build --target lib --name LcHtml --dest dist/components/LcHtml/ src/components/view/LcHtml.js

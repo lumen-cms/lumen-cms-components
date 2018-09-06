@@ -9,19 +9,17 @@ import router from './router'
 import store from './store'
 
 // import all content elements
-import './components/coreElements'
-import './components/viewElements'
-import './components/layoutElements'
+import './components/view'
 
 import cmsConfigDefaults from './defaultConfig'
 
-// general styles for css
+// general styles for css TODO configurable
 import './assets/style/imports.styl'
 
 Vue.use(VueObserveVisibility)
 Vue.config.productionTip = false
 
-// apply config
+// apply config TODO: configurable
 Vue.prototype.$cms = cmsConfigDefaults
 
 new Vue({
