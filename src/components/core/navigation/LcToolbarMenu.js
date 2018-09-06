@@ -1,5 +1,8 @@
+import LcToolbarMenuItem from './LcToolbarMenuItem'
+
 export default {
   name: 'LcToolbarMenu',
+  components: { LcToolbarMenuItem },
   render: function (h) {
     const content = this.content
     let childs = []

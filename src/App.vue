@@ -16,6 +16,7 @@
 
 <script>
   import articleGql from './gql/article/ArticleBySlug.gql'
+  import allPageTemplatesGql from './gql/pageTemplate/allPageTemplates.gql'
 
   export default {
     name: 'app',
@@ -30,7 +31,6 @@
         query: articleGql,
         variables () {
           const slug = this.$route.params.slug
-          console.log('hier', slug)
           return { slug: slug || 'en' }
         },
         update: r => r,
@@ -39,6 +39,19 @@
           console.log(data)
           if (!data) return
           this.Article = data.Article
+        }
+      },
+      pageTemplates: {
+        query: allPageTemplatesGql,
+        variables () {
+          return { languageKey: 'EN' }
+        },
+        update: r => r,
+        manual: true,
+        result ({ data }) {
+          if (!data) return
+          const pageTemplates = data.allPageTemplates
+          return this.$store.dispatch('setPageTemplates', pageTemplates)
         }
       }
     }

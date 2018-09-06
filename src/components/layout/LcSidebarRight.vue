@@ -11,8 +11,7 @@
       <v-list class="pa-0">
         <v-list-tile avatar
                      tag="div"
-                     to="/"
-                     nuxt>
+                     to="/">
           <lc-main-logo :path="logoPath"/>
         </v-list-tile>
       </v-list>

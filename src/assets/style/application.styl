@@ -1,0 +1,93 @@
+$custom-theme_variables := {
+  icon-size-default: 24px
+  icon-size-medium: 2rem
+  icon-size-large: 2.5rem
+  icon-size-x_large: 3rem
+  icon-size-x_x_large: 6rem
+  icon-size-x_x_x_large: 9rem
+}
+$toolbar-extension-height := 64px
+
+body {
+  &.overflow-hidden {
+    overflow hidden
+    .tabs__items {
+      height: 'calc(100vh - %s - %s)' % ($toolbar-height $toolbar-extension-height)
+      overflow auto
+    }
+  }
+  main > .container.fluid {
+    @extend .pa-0
+  }
+  .jumbo-first main {
+    padding-top: 0 !important
+    .content {
+      padding-top: 0 !important;
+    }
+  }
+}
+
+.has-toolbar-wrap {
+  > form {
+    max-width: $grid-breakpoints.lg
+    margin: 0 auto
+    padding: 0 16px
+  }
+}
+
+.main-logo {
+  max-height 40px
+  cursor: pointer
+}
+
+.footer-global {
+  > div > div {
+    margin 0 auto
+    max-width: $grid-breakpoints.lg
+  }
+}
+
+.v-speed-dial {
+  z-index: 2;
+}
+
+.v-avatar {
+  > img {
+    object-fit: cover
+  }
+}
+
+.v-icon.v-icon--x-x-large {
+  font-size: $custom-theme_variables.icon-size-x_x_large
+}
+
+.v-icon.v-icon--x-x-x-large {
+  font-size: $custom-theme_variables.icon-size-x_x_x_large
+}
+
+// fix menu case sensitive
+.v-system-bar, .v-toolbar {
+  .v-btn {
+    text-transform initial
+  }
+}
+
+// fix zIndex issues for layout
+.v-system-bar.v-system-bar--fixed {
+  z-index: 5
+}
+
+.lc-page-toolbar.v-toolbar {
+  z-index: 4
+
+}
+
+// boxed design centered toolbar
+.lc-toolbar-boxed .lc-page-toolbar > div, .lc-system-bar-boxed .v-system-bar > div {
+  max-width: $grid-breakpoints.lg
+  margin: 0 auto
+}
+
+.lc-toolbar-boxed .lc-page-toolbar > div {
+  padding: 0
+}

@@ -34,6 +34,9 @@ export const mutations = {
   },
   SET_SIDEBAR_LEFT: (state, val) => {
     state.activeSidebarLeft = val
+  },
+  SET_PAGE_TEMPLATES (state, payload) {
+    state.pageTemplates = payload
   }
 }
 
@@ -61,6 +64,10 @@ export const getters = {
 }
 
 export const actions = {
+  setPageTemplates ({ commit }, payload) {
+    return Promise.resolve(commit('SET_PAGE_TEMPLATES', payload))
+  },
+
   toggleCmsLoading ({ commit, state }) {
     commit('SET_CMS_LOADING', !state.cmsLoading)
   },

@@ -15,6 +15,9 @@ import './components/layoutElements'
 
 import cmsConfigDefaults from './defaultConfig'
 
+// general styles for css
+import './assets/style/imports.styl'
+
 Vue.use(VueObserveVisibility)
 Vue.config.productionTip = false
 

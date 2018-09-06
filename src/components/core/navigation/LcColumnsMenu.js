@@ -1,5 +1,8 @@
+import LcColumnsMenuItem from './LcColumnsMenuItem'
+
 export default {
   name: 'LcColumnsMenu',
+  components: { LcColumnsMenuItem },
   render: function (h) {
     const content = this.content
     let childs = []

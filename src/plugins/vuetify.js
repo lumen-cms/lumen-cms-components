@@ -14,7 +14,11 @@ import {
   VImg,
   VCard,
   VTabs,
-  VCarousel
+  VCarousel,
+  VDivider,
+  VSubheader,
+  VDialog,
+  VMenu
 } from 'vuetify'
 import { Ripple, Scroll } from 'vuetify/es5/directives'
 
@@ -35,7 +39,11 @@ Vue.use(Vuetify, {
     VImg,
     VCard,
     VTabs,
-    VCarousel
+    VCarousel,
+    VDivider,
+    VSubheader,
+    VDialog,
+    VMenu
   },
   directives: {
     Ripple, Scroll

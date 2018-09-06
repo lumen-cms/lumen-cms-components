@@ -38,7 +38,6 @@ export default {
     const linkSlug = this.fileRef.linkSlug
     if (linkSlug && !this.activateLightBox) {
       cardAttrs.hover = true
-      cardAttrs.nuxt = true
       if (this.isExternalUrl(linkSlug)) {
         cardAttrs.href = linkSlug
         cardAttrs.target = '_blank'

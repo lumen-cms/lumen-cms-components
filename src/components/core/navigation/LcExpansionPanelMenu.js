@@ -1,5 +1,8 @@
+import LcExpansionPanelMenuItem from './LcExpansionPanelMenuItem'
+
 export default {
   name: 'LcExpansionPanelMenu',
+  components: { LcExpansionPanelMenuItem },
   render: function (h) {
     const content = this.content
     let childs = []

@@ -29,8 +29,7 @@ export default {
       let { sliderStyle, sliderItemsRow } = this.properties
 
       const itemAttrs = (sliderItemsRow && sliderItemsRow > 1) ? {} : {
-        to: '/' + item.slug,
-        nuxt: true
+        to: '/' + item.slug
       }
       return this.$createElement('v-carousel-item', {
         attrs: itemAttrs
