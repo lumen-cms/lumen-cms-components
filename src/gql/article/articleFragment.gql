@@ -1,0 +1,33 @@
+# #import '~extendedArticleFragment'
+#import '../file/fileFragment.gql'
+
+fragment article on Article{
+  description
+  title
+  deleted
+  metaTitle
+  slug
+  teaser
+  keywords
+  published
+  publishedDate
+  languageKey
+  isBlogEntry
+  authors {
+    name
+    id
+    file {
+      ...file
+    }
+  }
+  defaultLanguage{
+    id
+    languageKey
+  }
+  categories{
+    id
+    title
+    slug
+  }
+  #...extended
+}
