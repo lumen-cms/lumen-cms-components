@@ -15,40 +15,40 @@
   </component>
 </template>
 <script>
-export default {
-  name: 'LcImage',
-  props: {
-    // all v-img props needs to be applied https://vuetifyjs.com/en/components/images
-    lazySrc: String,
-    src: String,
-    height: Number | String,
-    aspectRatio: Number | String,
-    contain: Boolean,
-    maxHeight: Number | String,
-    sizes: String,
-    srcset: String,
-    width: String | Number,
-    isFigure: Boolean
-  },
-  data () {
-    return {
-      isVisible: false
-    }
-  },
-  computed: {
-    componentTag () {
-      return this.isVisible ? 'v-img' : 'div' // need to do this due to v-img not working otherwise..
+  export default {
+    name: 'LcImage',
+    props: {
+      // all v-img props needs to be applied https://vuetifyjs.com/en/components/images
+      lazySrc: String,
+      src: String,
+      height: Number | String,
+      aspectRatio: Number | String,
+      contain: Boolean,
+      maxHeight: Number | String,
+      sizes: String,
+      srcset: String,
+      width: String | Number,
+      isFigure: Boolean
     },
-    componentStyles () {
-      if (!this.isVisible && this.height) {
-        return `height: ${this.height}`
+    data () {
+      return {
+        isVisible: false
+      }
+    },
+    computed: {
+      componentTag () {
+        return this.isVisible ? 'v-img' : 'div' // need to do this due to v-img not working otherwise..
+      },
+      componentStyles () {
+        if (!this.isVisible && this.height) {
+          return `height: ${this.height}`
+        }
+      }
+    },
+    methods: {
+      visibilityChanged (isVisible) {
+        isVisible && (this.isVisible = true)
       }
     }
-  },
-  methods: {
-    visibilityChanged (isVisible) {
-      isVisible && (this.isVisible = true)
-    }
   }
-}
 </script>

@@ -72,7 +72,7 @@ export default {
       }, [
         this.genArticleList(content),
         elements
-      ])]
+    ])]
     let style
     if (properties.styleType && properties.styleType.toLowerCase() === 'slider') {
       style = `height: ${properties.sliderHeight || 500}px;`

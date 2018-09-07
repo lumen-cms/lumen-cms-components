@@ -57,10 +57,10 @@ export default {
       return {
         srcset: widths.length ? widths
           .map(w => `${this.getFileAttrs(fileObj, w + 'x' + (heightResize || fileHeight)).src} ${w}w`)
-          .join(', ') : false,
+        .join(', ') : false,
         sizes: widths.length ? widths
           .map(w => w !== widths[widths.length - 1] ? `(max-width: ${w}px) ${w}px` : `${w}px`)
-          .join(', ') : false
+        .join(', ') : false
       }
     }
 

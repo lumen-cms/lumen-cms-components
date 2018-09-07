@@ -154,32 +154,32 @@
 </template>
 
 <script>
-import AllArticleCategoriesGql from '../../../../gql/articleCategory/allArticleCategories.gql'
-import styles from '../../../../util/contentEditStyleDefinitions'
-import contentEditMixin from '../../../../mixins/contentEditMixin'
+  import AllArticleCategoriesGql from '../../../../gql/articleCategory/allArticleCategories.gql'
+  import styles from '../../../../util/contentEditStyleDefinitions'
+  import contentEditMixin from '../../../../mixins/contentEditMixin'
 
-export default {
-  name: 'LcListWidgetEdit',
-  mixins: [contentEditMixin],
-  data () {
-    return {
-      // domains: this.$cms.DOMAINS, // todo seems unused?
-      allArticleCategories: []
-    }
-  },
-  inputFields: {
-    backgroundStyles: [styles.backgroundColor, styles.backgroundOpacity],
-    rootStyles: [styles.padding, styles.margin, styles.elevations, styles.contentWidth, styles.visibilityBreakpoint],
-    sliderStyles: [{ value: 'round', text: 'Rounded image' }, { value: 'slideshow', text: 'Slideshow' }]
-  },
-  apollo: {
-    allArticleCategories: {
-      query: AllArticleCategoriesGql,
-      variables () {
-        const key = this.$store.state.lc.locale || 'en'
-        return { filter: { languageKey: key.toUpperCase() } }
+  export default {
+    name: 'LcListWidgetEdit',
+    mixins: [contentEditMixin],
+    data () {
+      return {
+        // domains: this.$cms.DOMAINS, // todo seems unused?
+        allArticleCategories: []
+      }
+    },
+    inputFields: {
+      backgroundStyles: [styles.backgroundColor, styles.backgroundOpacity],
+      rootStyles: [styles.padding, styles.margin, styles.elevations, styles.contentWidth, styles.visibilityBreakpoint],
+      sliderStyles: [{ value: 'round', text: 'Rounded image' }, { value: 'slideshow', text: 'Slideshow' }]
+    },
+    apollo: {
+      allArticleCategories: {
+        query: AllArticleCategoriesGql,
+        variables () {
+          const key = this.$store.state.lc.locale || 'en'
+          return { filter: { languageKey: key.toUpperCase() } }
+        }
       }
     }
   }
-}
 </script>

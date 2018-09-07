@@ -9,33 +9,33 @@
   </v-card>
 </template>
 <script>
-import imageSourceSetMixin from '../../../../mixins/getImageSourceSet'
-import imageHelperMixin from '../../../../mixins/imageHelperMixin'
-import linkHelperMixin from '../../../../mixins/linkHelperMixin'
+  import imageSourceSetMixin from '../../../../mixins/getImageSourceSet'
+  import imageHelperMixin from '../../../../mixins/imageHelperMixin'
+  import linkHelperMixin from '../../../../mixins/linkHelperMixin'
 
-export default {
-  name: 'LcImageLightboxItem',
-  mixins: [linkHelperMixin, imageSourceSetMixin, imageHelperMixin],
-  props: {
-    content: Object
-  },
-  computed: {
-    genCardAttrs () {
-      if (this.content.linkSlug) {
-        const isLinkExternal = this.content.linkSlug && this.isExternalUrl(this.content.linkSlug)
-        const linkAttrs = isLinkExternal
-          ? { href: this.content.linkSlug }
-          : { to: `/${this.content.linkSlug}` }
-        return linkAttrs
-      }
-      return {}
+  export default {
+    name: 'LcImageLightboxItem',
+    mixins: [linkHelperMixin, imageSourceSetMixin, imageHelperMixin],
+    props: {
+      content: Object
     },
-    genImgAttrs () {
-      return {
-        ...this.getImageSourceSet(this.content),
-        ...this.getFileAttrs(this.content)
+    computed: {
+      genCardAttrs () {
+        if (this.content.linkSlug) {
+          const isLinkExternal = this.content.linkSlug && this.isExternalUrl(this.content.linkSlug)
+          const linkAttrs = isLinkExternal
+            ? { href: this.content.linkSlug }
+            : { to: `/${this.content.linkSlug}` }
+          return linkAttrs
+        }
+        return {}
+      },
+      genImgAttrs () {
+        return {
+          ...this.getImageSourceSet(this.content),
+          ...this.getFileAttrs(this.content)
+        }
       }
     }
   }
-}
 </script>

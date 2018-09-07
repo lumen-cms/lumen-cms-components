@@ -39,39 +39,39 @@
   </v-card>
 </template>
 <script>
-import articleListItemMixin from '../../../mixins/articleListItemMixin'
-import { getImageSrc } from '../../../util/imageSrcHelper'
-import LcImage from '../partials/LcImage'
+  import articleListItemMixin from '../../../mixins/articleListItemMixin'
+  import { getImageSrc } from '../../../util/imageSrcHelper'
+  import LcImage from '../partials/LcImage'
 
-const defaultImg = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='
-export default {
-  name: 'LcArticleListItemCard',
-  mixins: [articleListItemMixin],
-  components: { LcImage },
-  data () {
-    return {
-      mediaSrc: defaultImg,
-      previewImageCard: '',
-      isInit: true
-    }
-  },
-  watch: {
-    previewImage: {
-      handler (img) {
-        const previewImageCard = img === 'string' ? img : getImageSrc(img, null, 'x300').src
-        this.previewImageCard = previewImageCard
-        if (!this.isInit) {
-          // set mediaSrc if its not initial load for reactive search
-          this.mediaSrc = previewImageCard
-        }
-        if (this.isInit) {
-          this.isInit = false
-        }
-      },
-      immediate: true
+  const defaultImg = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='
+  export default {
+    name: 'LcArticleListItemCard',
+    mixins: [articleListItemMixin],
+    components: { LcImage },
+    data () {
+      return {
+        mediaSrc: defaultImg,
+        previewImageCard: '',
+        isInit: true
+      }
+    },
+    watch: {
+      previewImage: {
+        handler (img) {
+          const previewImageCard = img === 'string' ? img : getImageSrc(img, null, 'x300').src
+          this.previewImageCard = previewImageCard
+          if (!this.isInit) {
+            // set mediaSrc if its not initial load for reactive search
+            this.mediaSrc = previewImageCard
+          }
+          if (this.isInit) {
+            this.isInit = false
+          }
+        },
+        immediate: true
+      }
     }
   }
-}
 </script>
 
 <style lang="stylus">

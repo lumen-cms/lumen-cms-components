@@ -31,65 +31,65 @@
 </template>
 
 <script>
-import { getImageSrc } from '../../../util/imageSrcHelper'
+  import { getImageSrc } from '../../../util/imageSrcHelper'
 
-export default {
-  name: 'LcUploadSelectContainer',
-  props: {
-    label: {
-      type: String,
-      'default': () => 'File'
+  export default {
+    name: 'LcUploadSelectContainer',
+    props: {
+      label: {
+        type: String,
+        'default': () => 'File'
+      },
+      disabled: Boolean,
+      multiple: Boolean,
+      media: Array | Object,
+      hideLabel: Boolean,
+      input: Boolean,
+      processing: Boolean,
+      onlyOne: Boolean
     },
-    disabled: Boolean,
-    multiple: Boolean,
-    media: Array | Object,
-    hideLabel: Boolean,
-    input: Boolean,
-    processing: Boolean,
-    onlyOne: Boolean
-  },
-  data () {
-    return {
-      filename: '',
-      forms: [],
-      uploading: false,
-      showGallery: false
-    }
-  },
-  computed: {
-    showSelectBtn () {
-      return (!this.multiple && !this.mediaList) || this.multiple
-    },
-    isActive () {
-      return this.$store.state.lc.mediaDeleting || this.uploading
-    },
-    mediaList () {
-      if (!this.media) return null
-      const getFileSrc = (media) => {
-        return Object.assign({}, media, {
-          src: getImageSrc(media).src
-        })
+    data () {
+      return {
+        filename: '',
+        forms: [],
+        uploading: false,
+        showGallery: false
       }
+    },
+    computed: {
+      showSelectBtn () {
+        return (!this.multiple && !this.mediaList) || this.multiple
+      },
+      isActive () {
+        return this.$store.state.lc.mediaDeleting || this.uploading
+      },
+      mediaList () {
+        if (!this.media) return null
+        const getFileSrc = (media) => {
+          return Object.assign({}, media, {
+            src: getImageSrc(media).src
+          })
+        }
 
-      if (this.media.constructor === Object) {
-        return [getFileSrc(this.media)]
+        if (this.media.constructor === Object) {
+          return [getFileSrc(this.media)]
+        }
+        const filter = this.media && this.media.filter(e => e).map(e => getFileSrc(e))
+        return filter.length ? filter : null
       }
-      const filter = this.media && this.media.filter(e => e).map(e => getFileSrc(e))
-      return filter.length ? filter : null
-    }
-  },
-  methods: {
-    onItemSelect (v) {
-      this.$emit('uploaded', v)
-      this.$store.dispatch('setMediaLibrary', false)
-      this.$store.dispatch('setMediaLibraryData', {})
     },
-    onItemClick (url) {
-      window.open(url, '_blank')
-    },
-    async deleteFile (fileId) {
-      this.$emit('deleted', fileId)
+    methods: {
+      onItemSelect (v) {
+        this.$emit('uploaded', v)
+        this.$store.dispatch('setMediaLibrary', false)
+        this.$store.dispatch('setMediaLibraryData', {})
+      },
+      onItemClick (url) {
+        window.open(url, '_blank')
+      },
+      async deleteFile (fileId) {
+        this.$emit('deleted', fileId)
+      }
     }
   }
-}
 </script>

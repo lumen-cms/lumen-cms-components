@@ -23,105 +23,105 @@
 </template>
 
 <script>
-export default {
-  name: 'LcElementSlider',
-  data () {
-    return {
-      inputValue: null
-    }
-  },
-  props: {
-    height: {
-      type: String,
-      default: '500px'
-    },
-    hideBottomBar: {
-      type: Boolean,
-      default: false
-    },
-    value: {
-      type: Number,
-      default: null
-    },
-    content: {
-      type: Object
-    }
-  },
-  computed: {
-    wrapClassNames () {
-      let styles = (this.content && this.content.styles) || {}
-      let rootClasses = (styles && styles.rootClassNames) || []
-      // add specific max-width classes
-      rootClasses = rootClasses.map(e => e.includes('max-width-') ? 'slider-' + e : e)
-      if (styles.backgroundClassNames) {
-        rootClasses = rootClasses.concat(styles.backgroundClassNames)
+  export default {
+    name: 'LcElementSlider',
+    data () {
+      return {
+        inputValue: null
       }
-      if (!(this.content && this.content.properties.sliderFixedBackground)) {
-        rootClasses.push('center-child-elements')
-      }
-      if (this.content && this.content.properties.sliderZoomImages) {
-        rootClasses.push('zoom-images')
-      }
-      return rootClasses.length ? rootClasses.join(' ') + ' carousel lc-element-slider' : 'carousel lc-element-slider'
     },
-    style () {
-      const height = this.content && this.content.properties && this.content.properties.height
-      const style = {
-        height: height ? `${height}px` : this.height
+    props: {
+      height: {
+        type: String,
+        default: '500px'
+      },
+      hideBottomBar: {
+        type: Boolean,
+        default: false
+      },
+      value: {
+        type: Number,
+        default: null
+      },
+      content: {
+        type: Object
       }
-      return style
-    }
-  },
-  watch: {
-    inputValue (v, oldV) {
-      this.getItems().forEach((item, i) => {
-        const el = item && (item.elm || item.$el)
-        if (!(el && el.classList)) return
-        el.classList.add('slide-item')
-        el.classList[i < v ? 'add' : 'remove']('left-outside')
-        el.classList[i === v ? 'add' : 'remove']('active')
-        el.classList[i > v ? 'add' : 'remove']('right-outside')
-      })
     },
-    value (val) {
-      this.inputValue = val
-    }
-  },
-  destroyed () {
-    if (this.content && this.content.properties && this.content.properties.transparentToolbar) {
-      this.$store.dispatch('setCmsJumbotron', false)
-    }
-  },
-  mounted () {
-    if (this.content && this.content.properties && this.content.properties.transparentToolbar) {
-      this.$store.dispatch('setCmsJumbotron', true)
-    }
+    computed: {
+      wrapClassNames () {
+        let styles = (this.content && this.content.styles) || {}
+        let rootClasses = (styles && styles.rootClassNames) || []
+        // add specific max-width classes
+        rootClasses = rootClasses.map(e => e.includes('max-width-') ? 'slider-' + e : e)
+        if (styles.backgroundClassNames) {
+          rootClasses = rootClasses.concat(styles.backgroundClassNames)
+        }
+        if (!(this.content && this.content.properties.sliderFixedBackground)) {
+          rootClasses.push('center-child-elements')
+        }
+        if (this.content && this.content.properties.sliderZoomImages) {
+          rootClasses.push('zoom-images')
+        }
+        return rootClasses.length ? rootClasses.join(' ') + ' carousel lc-element-slider' : 'carousel lc-element-slider'
+      },
+      style () {
+        const height = this.content && this.content.properties && this.content.properties.height
+        const style = {
+          height: height ? `${height}px` : this.height
+        }
+        return style
+      }
+    },
+    watch: {
+      inputValue (v, oldV) {
+        this.getItems().forEach((item, i) => {
+          const el = item && (item.elm || item.$el)
+          if (!(el && el.classList)) return
+          el.classList.add('slide-item')
+          el.classList[i < v ? 'add' : 'remove']('left-outside')
+          el.classList[i === v ? 'add' : 'remove']('active')
+          el.classList[i > v ? 'add' : 'remove']('right-outside')
+        })
+      },
+      value (val) {
+        this.inputValue = val
+      }
+    },
+    destroyed () {
+      if (this.content && this.content.properties && this.content.properties.transparentToolbar) {
+        this.$store.dispatch('setCmsJumbotron', false)
+      }
+    },
+    mounted () {
+      if (this.content && this.content.properties && this.content.properties.transparentToolbar) {
+        this.$store.dispatch('setCmsJumbotron', true)
+      }
 
-    setTimeout(() => {
-      // @TODO - workaround
+      setTimeout(() => {
+        // @TODO - workaround
+        if (!this.inputValue) this.inputValue = this.value || 0
+      }, 100)
+    },
+    updated () {
       if (!this.inputValue) this.inputValue = this.value || 0
-    }, 100)
-  },
-  updated () {
-    if (!this.inputValue) this.inputValue = this.value || 0
-  },
+    },
 
-  methods: {
-    next () {
-      this.inputValue = (this.inputValue + 1) % this.getItems().length
-    },
-    prev () {
-      const n = this.getItems().length
-      this.inputValue = (this.inputValue + n - 1) % n
-    },
-    select (v) {
-      this.inputValue = v
-    },
-    getItems () {
-      return this.$slots.default || []
+    methods: {
+      next () {
+        this.inputValue = (this.inputValue + 1) % this.getItems().length
+      },
+      prev () {
+        const n = this.getItems().length
+        this.inputValue = (this.inputValue + n - 1) % n
+      },
+      select (v) {
+        this.inputValue = v
+      },
+      getItems () {
+        return this.$slots.default || []
+      }
     }
   }
-}
 </script>
 
 <style lang="stylus">

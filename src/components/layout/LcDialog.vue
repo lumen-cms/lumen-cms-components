@@ -14,22 +14,22 @@
   </v-dialog>
 </template>
 <script>
-export default {
-  name: 'LcDialog',
-  props: {
-    icon: String,
-    label: String,
-    showClass: String
-  },
-  data () {
-    return {
-      showDialog: false
-    }
-  },
-  watch: {
-    '$route.fullPath' () {
-      this.showDialog && (this.showDialog = false)
+  export default {
+    name: 'LcDialog',
+    props: {
+      icon: String,
+      label: String,
+      showClass: String
+    },
+    data () {
+      return {
+        showDialog: false
+      }
+    },
+    watch: {
+      '$route.fullPath' () {
+        this.showDialog && (this.showDialog = false)
+      }
     }
   }
-}
 </script>

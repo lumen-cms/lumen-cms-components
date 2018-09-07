@@ -35,66 +35,66 @@
   </v-dialog>
 </template>
 <script>
-import deleteGql from '../../gql/author/deleteAuthor.gql'
-import createGql from '../../gql/author/createAuthor.gql'
-import updateGql from '../../gql/author/updateAuthor.gql'
-import validationMixin from '../../mixins/formValidation'
+  import deleteGql from '../../gql/author/deleteAuthor.gql'
+  import createGql from '../../gql/author/createAuthor.gql'
+  import updateGql from '../../gql/author/updateAuthor.gql'
+  import validationMixin from '../../mixins/formValidation'
 
-export default {
-  name: 'LcAuthorDialog',
-  mixins: [validationMixin],
-  props: {
-    author: {
-      type: Object,
-      default: () => {
+  export default {
+    name: 'LcAuthorDialog',
+    mixins: [validationMixin],
+    props: {
+      author: {
+        type: Object,
+        default: () => {
+        }
       }
-    }
-  },
-  data () {
-    return {
-      showDialog: false,
-      inputField: null,
-      model: {},
-      mutationType: 'create'
-    }
-  },
-  watch: {
-    showDialog (v) {
-      if (!v) {
-        this.$set(this.model, {})
-      } else {
-        const hasAuthor = (this.author && this.author.id)
-        this.mutationType = hasAuthor ? 'update' : 'create'
-        hasAuthor && (this.model = Object.assign({}, this.author))
-      }
-    }
-  },
-  methods: {
-    async onDelete () {
-      if (!(this.model && this.model.id)) {
-        console.error('Delete Author error, id not found', this.model)
-      }
-      await this.mutateGql({
-        mutation: deleteGql,
-        variables: { id: this.model.id },
-        refetchQueries: ['allAuthors']
-      })
-      this.showDialog = false
     },
-    async onSave () {
-      const res = await this.mutateGql({
-        mutation: this.mutationType === 'create' ? createGql : updateGql,
-        refetchQueries: ['allAuthors'],
-        variables: this.model
-      })
+    data () {
+      return {
+        showDialog: false,
+        inputField: null,
+        model: {},
+        mutationType: 'create'
+      }
+    },
+    watch: {
+      showDialog (v) {
+        if (!v) {
+          this.$set(this.model, {})
+        } else {
+          const hasAuthor = (this.author && this.author.id)
+          this.mutationType = hasAuthor ? 'update' : 'create'
+          hasAuthor && (this.model = Object.assign({}, this.author))
+        }
+      }
+    },
+    methods: {
+      async onDelete () {
+        if (!(this.model && this.model.id)) {
+          console.error('Delete Author error, id not found', this.model)
+        }
+        await this.mutateGql({
+          mutation: deleteGql,
+          variables: { id: this.model.id },
+          refetchQueries: ['allAuthors']
+        })
+        this.showDialog = false
+      },
+      async onSave () {
+        const res = await this.mutateGql({
+          mutation: this.mutationType === 'create' ? createGql : updateGql,
+          refetchQueries: ['allAuthors'],
+          variables: this.model
+        })
 
-      res && (res.updateAuthor || res.createAuthor) && this.$emit('authorInput')
-      this.showDialog = false
-    },
-    toggleShow () {
-      this.showDialog = !this.showDialog
+        res && (res.updateAuthor || res.createAuthor) && this.$emit('authorInput')
+        this.showDialog = false
+      },
+      toggleShow () {
+        this.showDialog = !this.showDialog
+      }
     }
+
   }
-
-}
 </script>

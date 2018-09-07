@@ -53,18 +53,18 @@ export default {
     }
     if (content.description) {
       elements.push(h('v-expansion-panel', {},
-        [h('v-expansion-panel-content', {},
-          [
-            h('div', { slot: 'header' }, ''),
-            h('div', {},
-              [h('div', {},
-                [
-                  h('lc-html-renderer', { props: { content: description, languageKey } })
-                ])
-              ]
-            )
-          ])
-        ])
+                      [h('v-expansion-panel-content', {},
+                         [
+                           h('div', { slot: 'header' }, ''),
+                           h('div', {},
+                             [h('div', {},
+                                [
+                                  h('lc-html-renderer', { props: { content: description, languageKey } })
+                             ])
+                             ]
+                           )
+                      ])
+      ])
       )
     }
     this.unshiftBgContainer(elements || [], backgroundClassNames)

@@ -7,7 +7,7 @@ const fileProxy = process.env.IMAGE_PROXY || 'https://images.graph.cool/v1/'
  * @param cropString
  * @returns {object}
  */
-const getCenterCropValues = ({width, height}) => {
+const getCenterCropValues = ({ width, height }) => {
   if (!width || !height) return false
 
   /** @type Boolean */

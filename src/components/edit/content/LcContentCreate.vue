@@ -52,48 +52,48 @@
 </template>
 
 <script>
-export default {
-  name: 'LcContentCreate',
-  data () {
-    return {
-      showPaste: false
-    }
-  },
-  computed: {
-    createItems () {
-      const dialogData = this.$store.state.lc.contentEditDialogData
-      const components = this.$cms.componentMapping
-      return Object.keys(components).map(component => {
-        return Object.assign({}, components[component], {
-          name: component,
-          hideInLayout: components[component].hideInLayout && (!!dialogData.contentLayoutElementId || dialogData.isNewLayoutCol)
-        })
-      })
+  export default {
+    name: 'LcContentCreate',
+    data () {
+      return {
+        showPaste: false
+      }
     },
-    isShown: {
-      get () {
-        return this.$store.getters.getDialogType === 'create'
+    computed: {
+      createItems () {
+        const dialogData = this.$store.state.lc.contentEditDialogData
+        const components = this.$cms.componentMapping
+        return Object.keys(components).map(component => {
+          return Object.assign({}, components[component], {
+            name: component,
+            hideInLayout: components[component].hideInLayout && (!!dialogData.contentLayoutElementId || dialogData.isNewLayoutCol)
+          })
+        })
       },
-      set (v) {
-        if (!v) {
-          this.$store.dispatch('setContentEditDialogData', {})
+      isShown: {
+        get () {
+          return this.$store.getters.getDialogType === 'create'
+        },
+        set (v) {
+          if (!v) {
+            this.$store.dispatch('setContentEditDialogData', {})
+          }
         }
       }
-    }
-  },
-  methods: {
-    closeWindows () {
-      this.showPaste = false
-      this.$store.dispatch('setContentEditDialogData', {})
     },
-    onInsertPaste () {
-      this.$store.dispatch('setCrossDomainContent', this.$refs.inputTextArea.inputValue)
-    },
-    onPaste () {
-      this.showPaste = true
-      this.$nextTick(() => {
-        const area = this.$refs.inputTextArea
-        area.focus()
+    methods: {
+      closeWindows () {
+        this.showPaste = false
+        this.$store.dispatch('setContentEditDialogData', {})
+      },
+      onInsertPaste () {
+        this.$store.dispatch('setCrossDomainContent', this.$refs.inputTextArea.inputValue)
+      },
+      onPaste () {
+        this.showPaste = true
+        this.$nextTick(() => {
+          const area = this.$refs.inputTextArea
+          area.focus()
         // following not working (paste)
         // https://stackoverflow.com/questions/37204498/copy-pasting-on-chrome-using-javascript-document-execcommandpaste-doesnt-w
         // const el = document.createElement('textarea')
@@ -105,18 +105,18 @@ export default {
         // // el.select()
         // document.execCommand('paste')
         // const v = el.innerText
-      })
-    },
-    setSelectedType (val) {
-      const dialogData = this.$store.getters.getDialogData
-      this.$store.dispatch('setContentEditDialogData', Object.assign({}, dialogData, {
-        dialogType: 'edit',
-        content: {
-          id: null,
-          type: val
-        }
-      }))
+        })
+      },
+      setSelectedType (val) {
+        const dialogData = this.$store.getters.getDialogData
+        this.$store.dispatch('setContentEditDialogData', Object.assign({}, dialogData, {
+          dialogType: 'edit',
+          content: {
+            id: null,
+            type: val
+          }
+        }))
+      }
     }
   }
-}
 </script>

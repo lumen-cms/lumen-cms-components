@@ -80,51 +80,51 @@
   </no-ssr>
 </template>
 <script>
-export default {
-  name: 'LcAdminBar',
-  props: {
-    addRoute: {
-      type: String | Object
+  export default {
+    name: 'LcAdminBar',
+    props: {
+      addRoute: {
+        type: String | Object
+      },
+      editRoute: {
+        type: String | Object
+      },
+      contentEditToggle: {
+        type: Boolean
+      }
     },
-    editRoute: {
-      type: String | Object
+    data () {
+      return {
+        fab: false
+      }
     },
-    contentEditToggle: {
-      type: Boolean
-    }
-  },
-  data () {
-    return {
-      fab: false
-    }
-  },
-  computed: {
-    links () {
-      const CONFIG = this.$cms
-      let configAdminBarLinks = (CONFIG.adminBarLinks && Array.isArray(CONFIG.adminBarLinks) && CONFIG.adminBarLinks.slice(0)) || []
-      return configAdminBarLinks.concat([{
-        title: 'Page templates',
-        to: { name: 'pageTemplates' },
-        color: 'yellow darken-2',
-        icon: 'code'
-      }, {
-        title: 'Blog admin',
-        to: '/admin/article-admin',
-        color: 'teal darken-4',
-        icon: 'list'
-      }, {
-        title: 'URL 301 redirects',
-        to: { name: 'redirects' },
-        color: 'yellow darken-4',
-        icon: 'forward'
-      }])
-    }
-  },
-  methods: {
-    async onLogout () {
-      await this.$store.dispatch('LOGOUT')
-      this.$nextTick(() => this.$router.push('/admin'))
+    computed: {
+      links () {
+        const CONFIG = this.$cms
+        let configAdminBarLinks = (CONFIG.adminBarLinks && Array.isArray(CONFIG.adminBarLinks) && CONFIG.adminBarLinks.slice(0)) || []
+        return configAdminBarLinks.concat([{
+          title: 'Page templates',
+          to: { name: 'pageTemplates' },
+          color: 'yellow darken-2',
+          icon: 'code'
+        }, {
+          title: 'Blog admin',
+          to: '/admin/article-admin',
+          color: 'teal darken-4',
+          icon: 'list'
+        }, {
+          title: 'URL 301 redirects',
+          to: { name: 'redirects' },
+          color: 'yellow darken-4',
+          icon: 'forward'
+        }])
+      }
+    },
+    methods: {
+      async onLogout () {
+        await this.$store.dispatch('LOGOUT')
+        this.$nextTick(() => this.$router.push('/admin'))
+      }
     }
   }
-}
 </script>

@@ -23,7 +23,7 @@
   </div>
 </template>
 <script>
-export default {
-  name: 'LcAddress'
-}
+  export default {
+    name: 'LcAddress'
+  }
 </script>

@@ -18,34 +18,34 @@
   </div>
 </template>
 <script>
-export default {
-  name: 'LcFigure',
-  props: {
-    lazySrc: String,
-    src: String,
-    height: Number | String,
-    contain: Boolean,
-    maxHeight: Number | String,
-    sizes: String,
-    srcset: String,
-    width: String | Number,
-    isRounded: Boolean
-  },
-  data () {
-    return {
-      isVisible: false,
-      genSrc: null,
-      genSrcset: null
-    }
-  },
+  export default {
+    name: 'LcFigure',
+    props: {
+      lazySrc: String,
+      src: String,
+      height: Number | String,
+      contain: Boolean,
+      maxHeight: Number | String,
+      sizes: String,
+      srcset: String,
+      width: String | Number,
+      isRounded: Boolean
+    },
+    data () {
+      return {
+        isVisible: false,
+        genSrc: null,
+        genSrcset: null
+      }
+    },
 
-  methods: {
-    visibilityChanged (isVisible) {
-      if (isVisible) {
-        this.genSrc = this.src
-        this.genSrcset = this.srcset
+    methods: {
+      visibilityChanged (isVisible) {
+        if (isVisible) {
+          this.genSrc = this.src
+          this.genSrcset = this.srcset
+        }
       }
     }
   }
-}
 </script>

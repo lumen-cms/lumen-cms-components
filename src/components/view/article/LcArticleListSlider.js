@@ -99,7 +99,7 @@ export default {
   render (h) {
     let items = this.list
     let childs = []
-    let { height, sliderShowDelimiters, sliderAutoRotation, sliderLightDesign, sliderStyle, sliderImageCover, sliderHeaderSize, sliderItemsRow } = this.properties
+    let { height, sliderShowDelimiters, sliderAutoRotation, sliderLightDesign, sliderStyle, sliderItemsRow } = this.properties
     height = height || 400
     const interval = sliderAutoRotation ? Number(sliderAutoRotation) : 0
     const isLight = !!sliderLightDesign

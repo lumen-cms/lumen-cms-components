@@ -50,150 +50,150 @@
 </template>
 
 <script>
-import updateFileGql from '../../../gql/file/fileUpdate.gql'
-import formValidation from '../../../mixins/formValidation'
+  import updateFileGql from '../../../gql/file/fileUpdate.gql'
+  import formValidation from '../../../mixins/formValidation'
 
-export default {
-  name: 'LcUploadContainer',
-  mixins: [formValidation],
-  props: {
-    accept: {
-      type: String,
-      'default': '*'
+  export default {
+    name: 'LcUploadContainer',
+    mixins: [formValidation],
+    props: {
+      accept: {
+        type: String,
+        'default': '*'
+      },
+      label: {
+        type: String,
+        'default': 'File Upload'
+      },
+      disabled: Boolean,
+      multiple: Boolean,
+      required: Boolean,
+      media: Array | Object,
+      deletingFile: Boolean | Object,
+      hideLabel: Boolean
     },
-    label: {
-      type: String,
-      'default': 'File Upload'
-    },
-    disabled: Boolean,
-    multiple: Boolean,
-    required: Boolean,
-    media: Array | Object,
-    deletingFile: Boolean | Object,
-    hideLabel: Boolean
-  },
-  data () {
-    return {
-      filename: '',
-      forms: [],
-      uploading: false
-    }
-  },
-  computed: {
-    rules () {
-      if (this.required) {
-        return [this.onRequiredRule]
+    data () {
+      return {
+        filename: '',
+        forms: [],
+        uploading: false
       }
-      return []
     },
-    isActive () {
-      return this.$store.state.lc.mediaDeleting || this.uploading
-    },
-    mediaList () {
-      if (!this.media) return null
-      if (this.media.constructor === Object) {
-        return [this.media]
+    computed: {
+      rules () {
+        if (this.required) {
+          return [this.onRequiredRule]
+        }
+        return []
+      },
+      isActive () {
+        return this.$store.state.lc.mediaDeleting || this.uploading
+      },
+      mediaList () {
+        if (!this.media) return null
+        if (this.media.constructor === Object) {
+          return [this.media]
+        }
+        const filter = this.media && this.media.filter(e => e)
+        return filter.length ? filter : null
       }
-      const filter = this.media && this.media.filter(e => e)
-      return filter.length ? filter : null
-    }
-  },
-  methods: {
-    onItemClick (url) {
-      window && window.open(url, '_blank')
     },
-    async deleteFile (fileId) {
-      this.$emit('deleted', fileId)
-    },
-    async fileUpload () {
-      const endpoint = `https://api.graph.cool/file/v1/${process.env.VUE_APP_GRAPHQL_PROJECT_ID}`
-      if (this.forms.length) {
-        this.uploading = true
-        const results = []
-        for (const form of this.forms) {
-          const response = await fetch(endpoint, { method: 'POST', body: form })
-          const responseData = await response.json()
+    methods: {
+      onItemClick (url) {
+        window && window.open(url, '_blank')
+      },
+      async deleteFile (fileId) {
+        this.$emit('deleted', fileId)
+      },
+      async fileUpload () {
+        const endpoint = `https://api.graph.cool/file/v1/${process.env.VUE_APP_GRAPHQL_PROJECT_ID}`
+        if (this.forms.length) {
+          this.uploading = true
+          const results = []
+          for (const form of this.forms) {
+            const response = await fetch(endpoint, { method: 'POST', body: form })
+            const responseData = await response.json()
 
-          results.push(responseData)
+            results.push(responseData)
 
-          const width = form.get('width')
-          const height = form.get('height')
-          if (width || height) {
-            await this.$apollo.mutate({
-              mutation: updateFileGql,
-              variables: {
-                id: responseData.id,
-                width: parseInt(width),
-                height: parseInt(height)
-              }
-            })
+            const width = form.get('width')
+            const height = form.get('height')
+            if (width || height) {
+              await this.$apollo.mutate({
+                mutation: updateFileGql,
+                variables: {
+                  id: responseData.id,
+                  width: parseInt(width),
+                  height: parseInt(height)
+                }
+              })
+            }
+          }
+          this.uploading = false
+          this.forms = []
+          this.filename = ''
+          const data = results.length === 1 ? results[0] : results
+          if (results.length) {
+            this.$emit('uploaded', data)
           }
         }
-        this.uploading = false
-        this.forms = []
-        this.filename = ''
-        const data = results.length === 1 ? results[0] : results
-        if (results.length) {
-          this.$emit('uploaded', data)
+      },
+      addImageProcess (src) {
+        window.URL = window.URL || window.webkitURL
+
+        return new Promise((resolve, reject) => {
+          const img = new Image()
+          img.onload = () => {
+            const width = img.naturalWidth || img.width
+            const height = img.naturalHeight || img.height
+            window.URL.revokeObjectURL(img.src)
+            return resolve({ width, height })
+          }
+          img.onerror = reject
+          img.src = src
+        })
+      },
+      async getImageDimensionsFromFile (file) {
+        const { width, height } = await this.addImageProcess(window.URL.createObjectURL(file))
+        return { width, height }
+      },
+      async getFormData (files) {
+        const forms = []
+        for (const file of files) {
+          const form = new FormData()
+          const { width, height } = await this.getImageDimensionsFromFile(file)
+
+          form.append('data', file, file.name)
+          form.append('width', width)
+          form.append('height', height)
+
+          forms.push(form)
         }
-      }
-    },
-    addImageProcess (src) {
-      window.URL = window.URL || window.webkitURL
-
-      return new Promise((resolve, reject) => {
-        const img = new Image()
-        img.onload = () => {
-          const width = img.naturalWidth || img.width
-          const height = img.naturalHeight || img.height
-          window.URL.revokeObjectURL(img.src)
-          return resolve({ width, height })
+        return forms
+      },
+      onFocus () {
+        if (!this.disabled) {
+          this.$refs.fileInput.click()
         }
-        img.onerror = reject
-        img.src = src
-      })
-    },
-    async getImageDimensionsFromFile (file) {
-      const { width, height } = await this.addImageProcess(window.URL.createObjectURL(file))
-      return { width, height }
-    },
-    async getFormData (files) {
-      const forms = []
-      for (const file of files) {
-        const form = new FormData()
-        const { width, height } = await this.getImageDimensionsFromFile(file)
+      },
+      async onFileChange ($event) {
+        const files = $event.target.files || $event.dataTransfer.files
 
-        form.append('data', file, file.name)
-        form.append('width', width)
-        form.append('height', height)
-
-        forms.push(form)
-      }
-      return forms
-    },
-    onFocus () {
-      if (!this.disabled) {
-        this.$refs.fileInput.click()
-      }
-    },
-    async onFileChange ($event) {
-      const files = $event.target.files || $event.dataTransfer.files
-
-      let filename
-      if (files) {
-        if (files.length > 0) {
-          filename = [...files].map(file => file.name).join(', ')
+        let filename
+        if (files) {
+          if (files.length > 0) {
+            filename = [...files].map(file => file.name).join(', ')
+          }
+        } else {
+          filename = $event.target.value.split('\\').pop()
         }
-      } else {
-        filename = $event.target.value.split('\\').pop()
+        this.$refs.fileTextField.inputValue = filename
+        this.filename = filename
+        this.forms = await this.getFormData(files)
+        return true
       }
-      this.$refs.fileTextField.inputValue = filename
-      this.filename = filename
-      this.forms = await this.getFormData(files)
-      return true
     }
   }
-}
 </script>
 
 <style scoped>

@@ -84,165 +84,165 @@
 </template>
 
 <script>
-export default {
-  name: 'LcContentEditToolbar',
-  props: {
-    canEdit: {
-      type: Boolean,
-      'default': true
+  export default {
+    name: 'LcContentEditToolbar',
+    props: {
+      canEdit: {
+        type: Boolean,
+        'default': true
+      },
+      id: String,
+      content: {
+        type: Object,
+        'default': () => {
+        }
+      },
+      sorting: Number,
+      layoutIndex: Number || null,
+      published: Boolean,
+      pageProps: Object,
+      pageContents: Array,
+      contentLayoutElementId: String,
+      renderIndex: Number
     },
-    id: String,
-    content: {
-      type: Object,
-      'default': () => {
+    data () {
+      return {
+        show: false,
+        isDirty: false,
+        pinned: false,
+        active: false
       }
     },
-    sorting: Number,
-    layoutIndex: Number || null,
-    published: Boolean,
-    pageProps: Object,
-    pageContents: Array,
-    contentLayoutElementId: String,
-    renderIndex: Number
-  },
-  data () {
-    return {
-      show: false,
-      isDirty: false,
-      pinned: false,
-      active: false
-    }
-  },
-  watch: {
-    content () {
-      const editDialogData = this.$store.getters.getDialogData
-      if (editDialogData && editDialogData.content && (editDialogData.content.id === this.content.id)) {
-        this.$store.dispatch('setContentEditDialogData', {
-          content: this.content,
-          pageProps: this.pageProps,
-          dialogType: editDialogData.dialogType
-        })
-      }
-    }
-  },
-  computed: {
-    canDelete () {
-      return this.id && !this.$store.state.lc.contentCopyData.id && !this.$store.state.lc.contentCutData.id
-    },
-    displayname () {
-      return this.content.type
-    },
-    canCut () {
-      return !this.$store.state.lc.contentCopyData.id
-    },
-    canCopy () {
-      return !this.$store.state.lc.contentCutData.id
-    },
-    canPaste () {
-      const id = this.id
-      const contentCutData = this.$store.state.lc.contentCutData
-      const contentCopyData = this.$store.state.lc.contentCopyData
-      const typename = (contentCutData && contentCutData.type) || (contentCopyData && contentCopyData.type)
-      if (!!this.layoutIndex && typename === 'Layout') {
-        // layout don't allow to copy/paste into layout
-        return false
-      } else if (contentCutData.id && id !== contentCutData.id) {
-        return true
-      } else {
-        if (contentCopyData.id) {
-          return true
+    watch: {
+      content () {
+        const editDialogData = this.$store.getters.getDialogData
+        if (editDialogData && editDialogData.content && (editDialogData.content.id === this.content.id)) {
+          this.$store.dispatch('setContentEditDialogData', {
+            content: this.content,
+            pageProps: this.pageProps,
+            dialogType: editDialogData.dialogType
+          })
         }
       }
-      return false
-    }
-  },
-  methods: {
-    onContentSort (swopIndex) {
-      const moveObj = {
-        id: this.id,
-        currentIndex: this.renderIndex,
-        swopIndex,
-        pageContents: this.pageContents
-      }
-      this.$store.dispatch('setContentMoveData', moveObj)
     },
-    onPaste () {
-      this.$store.state.lc.contentCutData.id && this.onContentPaste()
-      this.$store.state.lc.contentCopyData.id && this.onContentCopy()
-    },
-    onContentCopy () {
-      const copyData = this.$store.state.lc.contentCopyData
-      const data = Object.assign({}, { contentElement: copyData }, {
-        id: this.id,
-        sorting: this.sorting,
-        articleId: this.pageProps.articleId,
-        contentLayoutElementId: this.contentLayoutElementId,
-        pageContents: this.pageContents,
-        layoutIndex: this.layoutIndex
-      })
-      // todo need to adjust copy data and then trigger function in ContentEditMain
-      this.$store.dispatch('setContentCopyPasteData', data)
-    },
-    onContentPaste () {
-      const contentCutData = this.$store.state.lc.contentCutData
-      const currentCutId = contentCutData.id
-      const pasteObj = {
-        id: currentCutId,
-        pasteOnContentId: this.id,
-        sorting: this.sorting,
-        articleId: this.pageProps.articleId,
-        contentLayoutElementId: this.contentLayoutElementId,
-        pageContents: this.pageContents,
-        layoutIndex: this.layoutIndex
-      }
-      if (this.pageProps.articleId !== contentCutData.articleIdOrigin) {
-        pasteObj.articleIdOrigin = contentCutData.articleIdOrigin // set origin article id where content is cut out
-      }
-      this.$store.dispatch('setContentPasteData', pasteObj)
-    },
-    toggleContentCut () {
-      const contentCutData = this.$store.state.lc.contentCutData.id ? { id: null } : {
-        id: this.id,
-        articleIdOrigin: this.pageProps.articleId,
-        type: this.content && this.content.type
-      }
-      this.$store.dispatch('setContentCutData', contentCutData)
-    },
-    toggleContentCopy () {
-      const currentCopyId = this.$store.state.lc.contentCopyData.id
-      const data = this.content
-      const state = currentCopyId ? { id: null } : data
-      this.$store.dispatch('setContentCopyData', state)
-    },
-    onCrossCopy () {
-      // add project ID for file copy on different project
-      const data = Object.assign({}, this.content, {
-        __projectId: process.env.VUE_APP_GRAPHQL_PROJECT_ID
-      })
-      let message = JSON.stringify(data)
-      try {
-        const el = document.createElement('textarea')
-        el.value = message
-        el.setAttribute('readonly', '')
-        el.style.position = 'absolute'
-        el.style.left = '-9999px'
-        document.body.appendChild(el)
-        el.select()
-        document.execCommand('copy')
-        document.body.removeChild(el)
-      } catch (err) {
-        this.dispatch('setError', 'could not copy')
+    computed: {
+      canDelete () {
+        return this.id && !this.$store.state.lc.contentCopyData.id && !this.$store.state.lc.contentCutData.id
+      },
+      displayname () {
+        return this.content.type
+      },
+      canCut () {
+        return !this.$store.state.lc.contentCopyData.id
+      },
+      canCopy () {
+        return !this.$store.state.lc.contentCutData.id
+      },
+      canPaste () {
+        const id = this.id
+        const contentCutData = this.$store.state.lc.contentCutData
+        const contentCopyData = this.$store.state.lc.contentCopyData
+        const typename = (contentCutData && contentCutData.type) || (contentCopyData && contentCopyData.type)
+        if (!!this.layoutIndex && typename === 'Layout') {
+          // layout don't allow to copy/paste into layout
+          return false
+        } else if (contentCutData.id && id !== contentCutData.id) {
+          return true
+        } else {
+          if (contentCopyData.id) {
+            return true
+          }
+        }
+        return false
       }
     },
+    methods: {
+      onContentSort (swopIndex) {
+        const moveObj = {
+          id: this.id,
+          currentIndex: this.renderIndex,
+          swopIndex,
+          pageContents: this.pageContents
+        }
+        this.$store.dispatch('setContentMoveData', moveObj)
+      },
+      onPaste () {
+        this.$store.state.lc.contentCutData.id && this.onContentPaste()
+        this.$store.state.lc.contentCopyData.id && this.onContentCopy()
+      },
+      onContentCopy () {
+        const copyData = this.$store.state.lc.contentCopyData
+        const data = Object.assign({}, { contentElement: copyData }, {
+          id: this.id,
+          sorting: this.sorting,
+          articleId: this.pageProps.articleId,
+          contentLayoutElementId: this.contentLayoutElementId,
+          pageContents: this.pageContents,
+          layoutIndex: this.layoutIndex
+        })
+        // todo need to adjust copy data and then trigger function in ContentEditMain
+        this.$store.dispatch('setContentCopyPasteData', data)
+      },
+      onContentPaste () {
+        const contentCutData = this.$store.state.lc.contentCutData
+        const currentCutId = contentCutData.id
+        const pasteObj = {
+          id: currentCutId,
+          pasteOnContentId: this.id,
+          sorting: this.sorting,
+          articleId: this.pageProps.articleId,
+          contentLayoutElementId: this.contentLayoutElementId,
+          pageContents: this.pageContents,
+          layoutIndex: this.layoutIndex
+        }
+        if (this.pageProps.articleId !== contentCutData.articleIdOrigin) {
+          pasteObj.articleIdOrigin = contentCutData.articleIdOrigin // set origin article id where content is cut out
+        }
+        this.$store.dispatch('setContentPasteData', pasteObj)
+      },
+      toggleContentCut () {
+        const contentCutData = this.$store.state.lc.contentCutData.id ? { id: null } : {
+          id: this.id,
+          articleIdOrigin: this.pageProps.articleId,
+          type: this.content && this.content.type
+        }
+        this.$store.dispatch('setContentCutData', contentCutData)
+      },
+      toggleContentCopy () {
+        const currentCopyId = this.$store.state.lc.contentCopyData.id
+        const data = this.content
+        const state = currentCopyId ? { id: null } : data
+        this.$store.dispatch('setContentCopyData', state)
+      },
+      onCrossCopy () {
+        // add project ID for file copy on different project
+        const data = Object.assign({}, this.content, {
+          __projectId: process.env.VUE_APP_GRAPHQL_PROJECT_ID
+        })
+        let message = JSON.stringify(data)
+        try {
+          const el = document.createElement('textarea')
+          el.value = message
+          el.setAttribute('readonly', '')
+          el.style.position = 'absolute'
+          el.style.left = '-9999px'
+          document.body.appendChild(el)
+          el.select()
+          document.execCommand('copy')
+          document.body.removeChild(el)
+        } catch (err) {
+          this.dispatch('setError', 'could not copy')
+        }
+      },
 
-    /**
+      /**
        * setting the contentPublish state
        */
-    togglePageContentElementVisibility () {
-      this.$store.dispatch('setContentPublish', { id: this.id, published: !this.published })
+      togglePageContentElementVisibility () {
+        this.$store.dispatch('setContentPublish', { id: this.id, published: !this.published })
+      }
     }
   }
-}
 </script>
 
 <style lang="stylus">

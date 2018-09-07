@@ -94,56 +94,56 @@
   </div>
 </template>
 <script>
-export default {
-  name: 'LcMenuBuilderItem',
-  props: {
-    item: Object,
-    i: { type: Number, 'default': 0 },
-    level: { type: Number, 'default': 0 },
-    subGroup: { type: Boolean },
-    parentIndex: { type: Number }
-  },
-  computed: {
-    cutIsActive () {
-      return this.$store.state.lc.menuCutPaste && this.$store.state.lc.menuCutPaste.isCut
-    }
-  },
-  methods: {
-    /**
+  export default {
+    name: 'LcMenuBuilderItem',
+    props: {
+      item: Object,
+      i: { type: Number, 'default': 0 },
+      level: { type: Number, 'default': 0 },
+      subGroup: { type: Boolean },
+      parentIndex: { type: Number }
+    },
+    computed: {
+      cutIsActive () {
+        return this.$store.state.lc.menuCutPaste && this.$store.state.lc.menuCutPaste.isCut
+      }
+    },
+    methods: {
+      /**
        * On cut paste
        * @param item
        * @param isNew
        * @param firstChild
        */
-    editItem (item, isNew, firstChild) {
-      let editObject = Object.assign({}, { item, isNew, firstChild })
-      this.$store.dispatch('setMenuEdit', editObject)
-    },
-    /**
+      editItem (item, isNew, firstChild) {
+        let editObject = Object.assign({}, { item, isNew, firstChild })
+        this.$store.dispatch('setMenuEdit', editObject)
+      },
+      /**
        * On cut paste
        * @param item
        * @param isPaste
        */
-    cutItem (item, isPaste) {
-      if (!isPaste) {
-        this.$store.dispatch('setMenuCutPaste', { item, isCut: true })
-      } else {
-        const currentState = Object.assign({}, this.$store.state.lc.menuCutPaste, {
-          toItem: item,
-          isPaste: true
-        })
-        delete currentState.isCut
-        if (currentState.item.id === currentState.toItem.id) {
-          // cut paste is same element
-          this.$store.dispatch('setMenuCutPaste', null)
+      cutItem (item, isPaste) {
+        if (!isPaste) {
+          this.$store.dispatch('setMenuCutPaste', { item, isCut: true })
         } else {
-          // paste is active
-          this.$store.dispatch('setMenuCutPaste', currentState)
+          const currentState = Object.assign({}, this.$store.state.lc.menuCutPaste, {
+            toItem: item,
+            isPaste: true
+          })
+          delete currentState.isCut
+          if (currentState.item.id === currentState.toItem.id) {
+            // cut paste is same element
+            this.$store.dispatch('setMenuCutPaste', null)
+          } else {
+            // paste is active
+            this.$store.dispatch('setMenuCutPaste', currentState)
+          }
         }
       }
     }
   }
-}
 </script>
 <style scoped>
   .list__tile__title a, .subheader a, .pl-3 a {

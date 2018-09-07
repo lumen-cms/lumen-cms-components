@@ -45,7 +45,7 @@ export default {
               styleType,
               slideshowHeight
             }
-          })]
+        })]
         )
       }).filter(e => e)
     )

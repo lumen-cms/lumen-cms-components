@@ -40,44 +40,44 @@
   </no-ssr>
 </template>
 <script>
-import LcImageLightboxItem from './LcImageLightboxItem'
-import { getImageSrc } from '../../../../util/imageSrcHelper'
-import imageSourceSetMixin from '../../../../mixins/getImageSourceSet'
+  import LcImageLightboxItem from './LcImageLightboxItem'
+  import { getImageSrc } from '../../../../util/imageSrcHelper'
+  import imageSourceSetMixin from '../../../../mixins/getImageSourceSet'
 
-export default {
-  name: 'LcLightboxDialog',
-  mixins: [imageSourceSetMixin],
-  components: { LcImageLightboxItem },
-  props: {
-    content: Object,
-    fileReferences: Array
-  },
-  data () {
-    return {
-      isActive: false,
-      carouselActiveItem: 0
-    }
-  },
-  computed: {
-    lightboxItems () {
-      return this.fileReferences.map(ref => {
-        const img = getImageSrc(ref.file)
-        const { srcset, sizes } = this.getImageSourceSet(ref)
-        return {
-          src: img.src,
-          srcset,
-          sizes
-        }
-      })
-    }
-  },
-  methods: {
-    setActiveItem (i) {
-      this.carouselActiveItem = i
+  export default {
+    name: 'LcLightboxDialog',
+    mixins: [imageSourceSetMixin],
+    components: { LcImageLightboxItem },
+    props: {
+      content: Object,
+      fileReferences: Array
     },
-    toggleVisibility () {
-      this.isActive = !this.isActive
+    data () {
+      return {
+        isActive: false,
+        carouselActiveItem: 0
+      }
+    },
+    computed: {
+      lightboxItems () {
+        return this.fileReferences.map(ref => {
+          const img = getImageSrc(ref.file)
+          const { srcset, sizes } = this.getImageSourceSet(ref)
+          return {
+            src: img.src,
+            srcset,
+            sizes
+          }
+        })
+      }
+    },
+    methods: {
+      setActiveItem (i) {
+        this.carouselActiveItem = i
+      },
+      toggleVisibility () {
+        this.isActive = !this.isActive
+      }
     }
   }
-}
 </script>

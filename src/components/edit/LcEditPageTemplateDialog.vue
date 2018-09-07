@@ -39,102 +39,102 @@
 </template>
 
 <script>
-import createTemplateGql from '../../gql/pageTemplate/createPageTemplate.gql'
-import updateTemplateGql from '../../gql/pageTemplate/updatePageTemplate.gql'
-import deleteTemplateGql from '../../gql/pageTemplate/deletePageTemplate.gql'
-import { slugifyTemplateKey } from '../../util/slugifyHelpers'
-import validationRules from '../../mixins/formValidation'
+  import createTemplateGql from '../../gql/pageTemplate/createPageTemplate.gql'
+  import updateTemplateGql from '../../gql/pageTemplate/updatePageTemplate.gql'
+  import deleteTemplateGql from '../../gql/pageTemplate/deletePageTemplate.gql'
+  import { slugifyTemplateKey } from '../../util/slugifyHelpers'
+  import validationRules from '../../mixins/formValidation'
 
-const model = {
-  title: null,
-  body: null,
-  type: null,
-  key: null,
-  bodyJson: {}
-}
-export default {
-  name: 'LcEditPageTemplateDialog',
-  mixins: [validationRules],
-  props: {
-    value: Object,
-    default: model
-  },
-  data () {
-    return {
-      showDialog: false,
-      isValidJson: true,
-      model: Object.assign({}, model)
-    }
-  },
-  watch: {
-    showDialog (v) {
-      if (!v && this.$refs.dialogContainer) {
-        this.$refs.dialogContainer.resetForm()
-        this.model = model
-        this.$emit('input', null)
+  const model = {
+    title: null,
+    body: null,
+    type: null,
+    key: null,
+    bodyJson: {}
+  }
+  export default {
+    name: 'LcEditPageTemplateDialog',
+    mixins: [validationRules],
+    props: {
+      value: Object,
+      default: model
+    },
+    data () {
+      return {
+        showDialog: false,
+        isValidJson: true,
+        model: Object.assign({}, model)
       }
     },
-    value (value) {
-      this.model = Object.assign({}, model, value)
-    }
-  },
-  computed: {
-    mode () {
-      return this.model.type === 'JSON' ? { name: 'javascript', json: true } : 'vue'
-    },
-    keyItems () {
-      return Object.keys(this.$cms.pageTemplate).map(e => ({
-        value: slugifyTemplateKey(e, this.$store.state.lc.locale),
-        text: e
-      }))
-    }
-  },
-  methods: {
-    onJsonChanged (v) {
-      try {
-        this.model = Object.assign({}, this.model, { bodyJson: JSON.parse(v) })
-        this.isValidJson = true
-      } catch (e) {
-        // throw new Error(e)
-        this.isValidJson = false
+    watch: {
+      showDialog (v) {
+        if (!v && this.$refs.dialogContainer) {
+          this.$refs.dialogContainer.resetForm()
+          this.model = model
+          this.$emit('input', null)
+        }
+      },
+      value (value) {
+        this.model = Object.assign({}, model, value)
       }
     },
-    openDialog () {
-      this.showDialog = !this.showDialog
+    computed: {
+      mode () {
+        return this.model.type === 'JSON' ? { name: 'javascript', json: true } : 'vue'
+      },
+      keyItems () {
+        return Object.keys(this.$cms.pageTemplate).map(e => ({
+          value: slugifyTemplateKey(e, this.$store.state.lc.locale),
+          text: e
+        }))
+      }
     },
-    submitTemplate (variables) {
-      // call this outside of this template
-      this.model = variables
-      return this.onSubmit()
-    },
-    async onSubmit () {
-      const model = Object.assign({}, this.model, {
-        languageKey: this.$store.state.lc.locale.toUpperCase()
-      })
-      model.key = slugifyTemplateKey(this.model.key, this.$store.state.lc.locale)
-      if (model.id) {
+    methods: {
+      onJsonChanged (v) {
+        try {
+          this.model = Object.assign({}, this.model, { bodyJson: JSON.parse(v) })
+          this.isValidJson = true
+        } catch (e) {
+          // throw new Error(e)
+          this.isValidJson = false
+        }
+      },
+      openDialog () {
+        this.showDialog = !this.showDialog
+      },
+      submitTemplate (variables) {
+        // call this outside of this template
+        this.model = variables
+        return this.onSubmit()
+      },
+      async onSubmit () {
+        const model = Object.assign({}, this.model, {
+          languageKey: this.$store.state.lc.locale.toUpperCase()
+        })
+        model.key = slugifyTemplateKey(this.model.key, this.$store.state.lc.locale)
+        if (model.id) {
+          await this.mutateGql({
+            mutation: updateTemplateGql,
+            variables: model,
+            refetchQueries: ['allPageTemplates']
+          }, 'updatePageTemplate')
+        } else {
+          await this.mutateGql({
+            mutation: createTemplateGql, variables: model, refetchQueries: ['allPageTemplates']
+          }, 'createPageTemplate')
+        }
+        this.$emit('refetchTemplates', true)
+      },
+      async onDelete () {
         await this.mutateGql({
-          mutation: updateTemplateGql,
-          variables: model,
+          mutation: deleteTemplateGql,
+          variables: { id: this.model.id },
           refetchQueries: ['allPageTemplates']
-        }, 'updatePageTemplate')
-      } else {
-        await this.mutateGql({
-          mutation: createTemplateGql, variables: model, refetchQueries: ['allPageTemplates']
-        }, 'createPageTemplate')
+        }, 'deletePagetemplate')
+        this.$emit('refetchTemplates', true)
+        this.$emit('input', null)
+        this.openDialog()
       }
-      this.$emit('refetchTemplates', true)
-    },
-    async onDelete () {
-      await this.mutateGql({
-        mutation: deleteTemplateGql,
-        variables: { id: this.model.id },
-        refetchQueries: ['allPageTemplates']
-      }, 'deletePagetemplate')
-      this.$emit('refetchTemplates', true)
-      this.$emit('input', null)
-      this.openDialog()
     }
   }
-}
 </script>

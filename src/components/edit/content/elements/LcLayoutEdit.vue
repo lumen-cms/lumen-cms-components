@@ -126,17 +126,17 @@
   </div>
 </template>
 <script>
-import mediaFileMixin from '../../../../mixins/mediaFileMixin'
-import contentEditMixin from '../../../../mixins/contentEditMixin'
-import styles from '../../../../util/contentEditStyleDefinitions'
+  import mediaFileMixin from '../../../../mixins/mediaFileMixin'
+  import contentEditMixin from '../../../../mixins/contentEditMixin'
+  import styles from '../../../../util/contentEditStyleDefinitions'
 
-export default {
-  name: 'LcLayoutEdit',
-  mixins: [contentEditMixin, mediaFileMixin],
-  inputFields: {
-    styles: [styles.textColor, styles.margin, styles.padding, styles.elevations, styles.contentWidth, styles.visibilityBreakpoint],
-    backgroundStyles: [styles.backgroundColor, styles.backgroundOpacity],
-    bgColors: [styles.backgroundColor]
+  export default {
+    name: 'LcLayoutEdit',
+    mixins: [contentEditMixin, mediaFileMixin],
+    inputFields: {
+      styles: [styles.textColor, styles.margin, styles.padding, styles.elevations, styles.contentWidth, styles.visibilityBreakpoint],
+      backgroundStyles: [styles.backgroundColor, styles.backgroundOpacity],
+      bgColors: [styles.backgroundColor]
+    }
   }
-}
 </script>

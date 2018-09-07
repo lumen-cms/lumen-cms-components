@@ -56,99 +56,99 @@
   </lc-form-container>
 </template>
 <script>
-import { firstCharToUpper } from '../../../util/string'
+  import { firstCharToUpper } from '../../../util/string'
 
-const model = {
-  title: null,
-  alternative: null,
-  caption: null,
-  file: { url: null },
-  linkSlug: null,
-  linkType: null,
-  linkOpenExternal: false,
-  linkId: null,
-  backgroundStyles: []
-}
-export default {
-  name: 'LcFileReferenceEdit',
-  props: {
-    content: Object,
-    isBackground: Boolean
-  },
-  data () {
-    return {
-      model: Object.assign({}, model, this.content),
-      disableLinkInput: false,
-      showMenu: false
-    }
-  },
-  computed: {
-    bgSizeOptions () {
-      return ['cover', 'contain', 'auto']
+  const model = {
+    title: null,
+    alternative: null,
+    caption: null,
+    file: { url: null },
+    linkSlug: null,
+    linkType: null,
+    linkOpenExternal: false,
+    linkId: null,
+    backgroundStyles: []
+  }
+  export default {
+    name: 'LcFileReferenceEdit',
+    props: {
+      content: Object,
+      isBackground: Boolean
     },
-    bgSize () {
-      return this.findBgStyles(this.bgSizeOptions)
+    data () {
+      return {
+        model: Object.assign({}, model, this.content),
+        disableLinkInput: false,
+        showMenu: false
+      }
     },
-    bgRepeatOptions () {
-      return ['no-repeat', 'repeat-x', 'repeat-y']
-    },
-    bgRepeat () {
-      return this.findBgStyles(this.bgRepeatOptions)
-    },
-    bgPositionOptions () {
-      return ['center', 'left', 'right']
-    },
-    bgPosition () {
-      return this.findBgStyles(this.bgPositionOptions)
-    }
-  },
-  watch: {
-    model: {
-      handler (v) {
-        console.log('watch model changed', v)
-        this.$emit('onFormDirty', v)
+    computed: {
+      bgSizeOptions () {
+        return ['cover', 'contain', 'auto']
       },
-      deep: true
-    }
+      bgSize () {
+        return this.findBgStyles(this.bgSizeOptions)
+      },
+      bgRepeatOptions () {
+        return ['no-repeat', 'repeat-x', 'repeat-y']
+      },
+      bgRepeat () {
+        return this.findBgStyles(this.bgRepeatOptions)
+      },
+      bgPositionOptions () {
+        return ['center', 'left', 'right']
+      },
+      bgPosition () {
+        return this.findBgStyles(this.bgPositionOptions)
+      }
+    },
+    watch: {
+      model: {
+        handler (v) {
+          console.log('watch model changed', v)
+          this.$emit('onFormDirty', v)
+        },
+        deep: true
+      }
     // content: {
     //   handler () {
     //     this.setModel()
     //   },
     //   immediate: true
     // }
-  },
-  methods: {
-    findBgStyles (array) {
-      return array.find(e => Array.isArray(this.model.backgroundStyles) && this.model.backgroundStyles.find(i => i === e))
     },
-    setModel () {
-      const model = Object.assign({}, this.model, this.content)
-      model.backgroundStyles = model.backgroundStyles || []
-      this.model = model
-    },
-    onBackgroundChange (item, options) {
-      let bgElements = this.model.backgroundStyles || []
-      bgElements = bgElements.filter(e => !options.includes(e))
-      bgElements.push(item)
-      this.$set(this.model, 'backgroundStyles', bgElements)
-    },
-    onHref (v) {
-      if (!v) return
-      v.type && (v.type = firstCharToUpper(v.type))
-      this.model.linkSlug = v.value || null
-      this.model.linkId = v.id || null
-      this.model.linkOpenExternal = !!v.id
-      this.model.linkType = v.type || null
-    },
-    resetDetection () {
-      this.$refs.form.resetValidation()
-    },
-    async validate () {
-      const v = this.$refs.form.validate()
-      if (v) {
-        this.$emit('fileReferenceUpdate', this.model)
+    methods: {
+      findBgStyles (array) {
+        return array.find(e => Array.isArray(this.model.backgroundStyles) && this.model.backgroundStyles.find(i => i === e))
+      },
+      setModel () {
+        const model = Object.assign({}, this.model, this.content)
+        model.backgroundStyles = model.backgroundStyles || []
+        this.model = model
+      },
+      onBackgroundChange (item, options) {
+        let bgElements = this.model.backgroundStyles || []
+        bgElements = bgElements.filter(e => !options.includes(e))
+        bgElements.push(item)
+        this.$set(this.model, 'backgroundStyles', bgElements)
+      },
+      onHref (v) {
+        if (!v) return
+        v.type && (v.type = firstCharToUpper(v.type))
+        this.model.linkSlug = v.value || null
+        this.model.linkId = v.id || null
+        this.model.linkOpenExternal = !!v.id
+        this.model.linkType = v.type || null
+      },
+      resetDetection () {
+        this.$refs.form.resetValidation()
+      },
+      async validate () {
+        const v = this.$refs.form.validate()
+        if (v) {
+          this.$emit('fileReferenceUpdate', this.model)
+        }
       }
     }
   }
-}
 </script>

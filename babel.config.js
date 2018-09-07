@@ -1,19 +1,20 @@
+/* eslint-disable no-template-curly-in-string */
 module.exports = {
-  "presets": [
+  'presets': [
     [
-      "@vue/app",
+      '@vue/app',
       {
-        "useBuiltIns": "entry"
+        'useBuiltIns': 'entry'
       }
     ]
   ],
-  "plugins": [
+  'plugins': [
     [
-      "transform-imports",
+      'transform-imports',
       {
-        "vuetify": {
-          "transform": "vuetify/es5/components/${member}",
-          "preventFullImport": true
+        'vuetify': {
+          'transform': 'vuetify/es5/components/${member}',
+          'preventFullImport': true
         }
       }
     ]

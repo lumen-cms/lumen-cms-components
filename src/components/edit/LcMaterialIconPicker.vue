@@ -15,33 +15,33 @@
   </v-autocomplete>
 </template>
 <script>
-export default {
-  name: 'LcMaterialIconPicker',
-  props: {
-    value: String
-  },
-  computed: {
-    model: {
-      get () {
-        return this.value
-      },
-      set (value) {
-        this.$emit('input', value)
+  export default {
+    name: 'LcMaterialIconPicker',
+    props: {
+      value: String
+    },
+    computed: {
+      model: {
+        get () {
+          return this.value
+        },
+        set (value) {
+          this.$emit('input', value)
+        }
+      }
+    },
+    mounted () {
+      if (!this.$store.state.lc.materialIconNames.length) {
+        this.getMaterialNames()
+      }
+    },
+    methods: {
+      async getMaterialNames () {
+        const fetched = await fetch('https://raw.githubusercontent.com/google/material-design-icons/224895a8/iconfont/codepoints')
+          .then(res => res.text())
+        const array = fetched.split('\n').map(item => item.split(' ')[0])
+        this.$store.dispatch('setMaterialIconNames', array)
       }
     }
-  },
-  mounted () {
-    if (!this.$store.state.lc.materialIconNames.length) {
-      this.getMaterialNames()
-    }
-  },
-  methods: {
-    async getMaterialNames () {
-      const fetched = await fetch('https://raw.githubusercontent.com/google/material-design-icons/224895a8/iconfont/codepoints')
-        .then(res => res.text())
-      const array = fetched.split('\n').map(item => item.split(' ')[0])
-      this.$store.dispatch('setMaterialIconNames', array)
-    }
   }
-}
 </script>

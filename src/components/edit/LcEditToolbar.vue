@@ -16,10 +16,10 @@
 
 <script>
 
-export default {
-  name: 'LcEditToolbar',
-  props: {
-    clippedRight: Boolean
+  export default {
+    name: 'LcEditToolbar',
+    props: {
+      clippedRight: Boolean
+    }
   }
-}
 </script>

@@ -11,18 +11,18 @@
 </template>
 
 <script>
-import { getImageSrc } from '../../../util/imageSrcHelper'
-import articleListItemMixin from '../../../mixins/articleListItemMixin'
-import LcFigure from '../partials/LcFigure'
+  import { getImageSrc } from '../../../util/imageSrcHelper'
+  import articleListItemMixin from '../../../mixins/articleListItemMixin'
+  import LcFigure from '../partials/LcFigure'
 
-export default {
-  name: 'LcArticleListItem',
-  components: { LcFigure },
-  mixins: [articleListItemMixin],
-  computed: {
-    previewImageAvatar () {
-      return typeof this.previewImage === 'string' ? this.previewImage : getImageSrc(this.previewImage, '60').src
+  export default {
+    name: 'LcArticleListItem',
+    components: { LcFigure },
+    mixins: [articleListItemMixin],
+    computed: {
+      previewImageAvatar () {
+        return typeof this.previewImage === 'string' ? this.previewImage : getImageSrc(this.previewImage, '60').src
+      }
     }
   }
-}
 </script>

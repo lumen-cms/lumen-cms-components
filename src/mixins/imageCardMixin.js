@@ -11,8 +11,8 @@ export default {
         return {}
       }
       let isFlatStyle, isCardStyle, isTitleCentered, titleStyle, isRoundedBackground, isCoverImg, isTitleBottom,
-        cardTheme,
-        transparent
+          cardTheme,
+          transparent
       classNames.forEach(e => {
         if (e === 'grid-cards-style-flat') {
           isFlatStyle = true

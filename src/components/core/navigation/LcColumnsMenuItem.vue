@@ -35,41 +35,41 @@
   </component>
 </template>
 <script>
-export default {
-  name: 'LcColumnsMenuItem',
-  props: {
-    item: Object,
-    i: { type: Number, 'default': 0 },
-    level: { type: Number, 'default': 0 },
-    subGroup: { type: Boolean },
-    dark: {
-      type: Boolean,
-      default: false
-    }
-  },
-  computed: {
-    attrs () {
-      if (this.item.isVuexAction) {
-        return {}
+  export default {
+    name: 'LcColumnsMenuItem',
+    props: {
+      item: Object,
+      i: { type: Number, 'default': 0 },
+      level: { type: Number, 'default': 0 },
+      subGroup: { type: Boolean },
+      dark: {
+        type: Boolean,
+        default: false
       }
-      let link = this.item['subheader-link'] || this.item.to
-      if (!this.item.linkOpenExternal) {
-        link = (link && link.startsWith('/', link)) ? link : '/' + link
+    },
+    computed: {
+      attrs () {
+        if (this.item.isVuexAction) {
+          return {}
+        }
+        let link = this.item['subheader-link'] || this.item.to
+        if (!this.item.linkOpenExternal) {
+          link = (link && link.startsWith('/', link)) ? link : '/' + link
+        }
+        const attrs = {
+          [this.item.linkOpenExternal ? 'href' : 'to']: link
+        }
+        if (this.item.linkOpenExternal) {
+          attrs.target = '_blank'
+        }
+        return attrs
       }
-      const attrs = {
-        [this.item.linkOpenExternal ? 'href' : 'to']: link
+    },
+    methods: {
+      onVuexAction () {
+        const vuexAction = this.item.vuexAction
+        vuexAction && this.$store.dispatch(vuexAction, true)
       }
-      if (this.item.linkOpenExternal) {
-        attrs.target = '_blank'
-      }
-      return attrs
-    }
-  },
-  methods: {
-    onVuexAction () {
-      const vuexAction = this.item.vuexAction
-      vuexAction && this.$store.dispatch(vuexAction, true)
     }
   }
-}
 </script>

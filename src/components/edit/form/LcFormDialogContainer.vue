@@ -26,30 +26,30 @@
   </v-dialog>
 </template>
 <script>
-export default {
-  name: 'LcFormDialogContainer',
-  props: {
-    value: Boolean,
-    title: String,
-    showDelete: Boolean,
-    fullscreen: {
-      type: Boolean,
-      'default': false
-    }
-  },
-  methods: {
-    resetForm () {
-      this.$refs.form.resetForm()
+  export default {
+    name: 'LcFormDialogContainer',
+    props: {
+      value: Boolean,
+      title: String,
+      showDelete: Boolean,
+      fullscreen: {
+        type: Boolean,
+        'default': false
+      }
     },
-    onDialogChange (v) {
-      this.$emit('input', v)
-    },
-    onSaveClicked () {
+    methods: {
+      resetForm () {
+        this.$refs.form.resetForm()
+      },
+      onDialogChange (v) {
+        this.$emit('input', v)
+      },
+      onSaveClicked () {
 
-    },
-    onSubmit (variables) {
-      this.$emit('onSubmit', variables)
+      },
+      onSubmit (variables) {
+        this.$emit('onSubmit', variables)
+      }
     }
   }
-}
 </script>

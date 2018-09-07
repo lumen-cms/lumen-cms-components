@@ -4,9 +4,9 @@
   </div>
 </template>
 <script>
-export default {
-  name: 'LcSpinner'
-}
+  export default {
+    name: 'LcSpinner'
+  }
 </script>
 <style lang="styl">
   .preloader {

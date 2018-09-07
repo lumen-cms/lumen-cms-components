@@ -257,128 +257,128 @@
   </div>
 </template>
 <script>
-import contentEditMixin from '../../../../mixins/contentEditMixin'
-import styles from '../../../../util/contentEditStyleDefinitions'
-import ENUMS from '../../../../gql/ENUMS'
-import contentElementStylePreSets from '~predefinedStyles'
+  import contentEditMixin from '../../../../mixins/contentEditMixin'
+  import styles from '../../../../util/contentEditStyleDefinitions'
+  import ENUMS from '../../../../gql/ENUMS'
+  import contentElementStylePreSets from '~predefinedStyles'
 
-const imageSizeOptions = {
-  'Size_1': '8% (12 each row)',
-  'Size_2': '16% {6 each row}',
-  'Size_3': '25 % (4 each row)',
-  'Size_4': '33% (3 each row)',
-  'Size_5': '41% (2.5 each row)',
-  'Size_6': '50% (2 each row)',
-  'Size_12': '100% (1 each row)'
-}
-const rootStyles = [styles.fontSize, styles.textColor, styles.padding, styles.margin, styles.elevations, styles.contentWidth, styles.visibilityBreakpoint, styles.multiImageGrid, styles.multiImageOptions, styles.multiImageTitleStyle, styles.multiImageTitlePosition]
-const inputFields = {
-  backgroundStyles: [styles.backgroundColor, styles.backgroundOpacity],
-  backgroundHeaderStyles: [styles.backgroundColor, styles.backgroundOpacity],
-  contentStyles: [styles.fontSize, styles.textAlignment, styles.textColor, styles.contentWidth, styles.padding],
-  headerStyles: [styles.fontSize, styles.textColor, styles.textAlignment, styles.contentWidth, styles.margin, styles.padding, styles.visibilityBreakpoint],
-  rootStyles: rootStyles,
-  get generalStyles () {
-    return rootStyles.filter(e => ['fontSize', 'textColor', 'padding', 'margin', 'elevations', 'contentWidth', 'visibilityBreakpoint'].includes(e.modelName))
-  },
-  get multiImageOptions () {
-    return rootStyles.filter(e => ['multiImageGrid', 'multiImageOptions', 'multiImageTitleStyle', 'multiImageTitlePosition'].includes(e.modelName))
+  const imageSizeOptions = {
+    'Size_1': '8% (12 each row)',
+    'Size_2': '16% {6 each row}',
+    'Size_3': '25 % (4 each row)',
+    'Size_4': '33% (3 each row)',
+    'Size_5': '41% (2.5 each row)',
+    'Size_6': '50% (2 each row)',
+    'Size_12': '100% (1 each row)'
   }
-}
-export default {
-  name: 'LcTextMixtedEdit',
-  mixins: [contentEditMixin],
-  inputFields: inputFields,
-  selectOptions: {
-    get contentClassNames () {
-      let array = []
-      inputFields.contentStyles.forEach(e => {
-        array = array.concat(e.items.map(i => i.value || i))
-      })
-      return array
+  const rootStyles = [styles.fontSize, styles.textColor, styles.padding, styles.margin, styles.elevations, styles.contentWidth, styles.visibilityBreakpoint, styles.multiImageGrid, styles.multiImageOptions, styles.multiImageTitleStyle, styles.multiImageTitlePosition]
+  const inputFields = {
+    backgroundStyles: [styles.backgroundColor, styles.backgroundOpacity],
+    backgroundHeaderStyles: [styles.backgroundColor, styles.backgroundOpacity],
+    contentStyles: [styles.fontSize, styles.textAlignment, styles.textColor, styles.contentWidth, styles.padding],
+    headerStyles: [styles.fontSize, styles.textColor, styles.textAlignment, styles.contentWidth, styles.margin, styles.padding, styles.visibilityBreakpoint],
+    rootStyles: rootStyles,
+    get generalStyles () {
+      return rootStyles.filter(e => ['fontSize', 'textColor', 'padding', 'margin', 'elevations', 'contentWidth', 'visibilityBreakpoint'].includes(e.modelName))
     },
-    get rootClassNames () {
-      let array = []
-      inputFields.rootStyles.forEach(e => {
-        array = array.concat(e.items.map(i => i.value || i))
-      })
-      return array
-    },
-    get headerClassNames () {
-      let array = []
-      inputFields.headerStyles.forEach(e => {
-        array = array.concat(e.items.map(i => i.value || i))
-      })
-      return array
-    },
-    get imageColumnSizeOptions () {
-      return ENUMS.IMAGE_COLUMNS
-        .map(e => ({ text: imageSizeOptions[e], value: e }))
-        .concat([{
-          value: 'variable',
-          text: 'Image columns without breakpoint'
-        }, {
-          value: '',
-          text: 'Slideshow'
-        }])
-    },
-    predifinedLayouts: contentElementStylePreSets
-  },
-  methods: {
-    onImageOrientChange (v) {
-      if (v) {
-        this.$set(this.model.properties, 'layoutPanel', null)
-      }
-    },
-    onLayoutPanelChange (v) {
-      if (v) {
-        this.$set(this.model.properties, 'imageOrient', null)
-        this.$set(this.model.properties, 'isLightbox', false)
-        this.$set(this.model.properties, 'imageColumnSize', null)
-      }
+    get multiImageOptions () {
+      return rootStyles.filter(e => ['multiImageGrid', 'multiImageOptions', 'multiImageTitleStyle', 'multiImageTitlePosition'].includes(e.modelName))
     }
-  },
-  computed: {
-    predefinedLayoutValue: {
-      get () {
-        const currentStyles = this.model.styles
-        const currentRoot = currentStyles.rootClassNames || []
-        const currentHeader = currentStyles.headerClassNames || []
-        const currentContent = currentStyles.contentClassNames || []
-        const find = contentElementStylePreSets.find(item => {
-          const exist = item.styles.headerClassNames.every(e => currentHeader.includes(e)) && currentHeader.length === item.styles.headerClassNames.length
-          const exist2 = item.styles.rootClassNames.every(e => currentRoot.includes(e)) && currentRoot.length === item.styles.rootClassNames.length
-          const exist3 = item.styles.contentClassNames.every(e => currentContent.includes(e)) && currentContent.length === item.styles.contentClassNames.length
-          return exist3 && exist2 && exist
+  }
+  export default {
+    name: 'LcTextMixtedEdit',
+    mixins: [contentEditMixin],
+    inputFields: inputFields,
+    selectOptions: {
+      get contentClassNames () {
+        let array = []
+        inputFields.contentStyles.forEach(e => {
+          array = array.concat(e.items.map(i => i.value || i))
         })
-        return find
+        return array
       },
-      set (v) {
+      get rootClassNames () {
+        let array = []
+        inputFields.rootStyles.forEach(e => {
+          array = array.concat(e.items.map(i => i.value || i))
+        })
+        return array
+      },
+      get headerClassNames () {
+        let array = []
+        inputFields.headerStyles.forEach(e => {
+          array = array.concat(e.items.map(i => i.value || i))
+        })
+        return array
+      },
+      get imageColumnSizeOptions () {
+        return ENUMS.IMAGE_COLUMNS
+          .map(e => ({ text: imageSizeOptions[e], value: e }))
+          .concat([{
+            value: 'variable',
+            text: 'Image columns without breakpoint'
+          }, {
+            value: '',
+            text: 'Slideshow'
+          }])
+      },
+      predifinedLayouts: contentElementStylePreSets
+    },
+    methods: {
+      onImageOrientChange (v) {
         if (v) {
-          this.$set(this.model, 'styles', Object.assign({}, v.styles))
-        } else {
-          this.$set(this.model, 'styles', {})
+          this.$set(this.model.properties, 'layoutPanel', null)
+        }
+      },
+      onLayoutPanelChange (v) {
+        if (v) {
+          this.$set(this.model.properties, 'imageOrient', null)
+          this.$set(this.model.properties, 'isLightbox', false)
+          this.$set(this.model.properties, 'imageColumnSize', null)
         }
       }
     },
-    iframeResponsiveValue: {
-      get () {
-        // needs to be v-model because its v-switch
-        return !!(this.model.styles.rootClassNames || []).find(e => e === 'responsive-frame')
-      },
-      set (v) {
-        const item = 'responsive-frame'
-        let rootClassNames = this.model.styles.rootClassNames.slice(0)
-        if (v) {
-          rootClassNames.push(item)
-        } else {
-          rootClassNames = rootClassNames.filter(e => e !== item)
+    computed: {
+      predefinedLayoutValue: {
+        get () {
+          const currentStyles = this.model.styles
+          const currentRoot = currentStyles.rootClassNames || []
+          const currentHeader = currentStyles.headerClassNames || []
+          const currentContent = currentStyles.contentClassNames || []
+          const find = contentElementStylePreSets.find(item => {
+            const exist = item.styles.headerClassNames.every(e => currentHeader.includes(e)) && currentHeader.length === item.styles.headerClassNames.length
+            const exist2 = item.styles.rootClassNames.every(e => currentRoot.includes(e)) && currentRoot.length === item.styles.rootClassNames.length
+            const exist3 = item.styles.contentClassNames.every(e => currentContent.includes(e)) && currentContent.length === item.styles.contentClassNames.length
+            return exist3 && exist2 && exist
+          })
+          return find
+        },
+        set (v) {
+          if (v) {
+            this.$set(this.model, 'styles', Object.assign({}, v.styles))
+          } else {
+            this.$set(this.model, 'styles', {})
+          }
         }
-        this.$set(this.model, 'styles', Object.assign({}, this.model.styles, {
-          rootClassNames
-        }))
+      },
+      iframeResponsiveValue: {
+        get () {
+          // needs to be v-model because its v-switch
+          return !!(this.model.styles.rootClassNames || []).find(e => e === 'responsive-frame')
+        },
+        set (v) {
+          const item = 'responsive-frame'
+          let rootClassNames = this.model.styles.rootClassNames.slice(0)
+          if (v) {
+            rootClassNames.push(item)
+          } else {
+            rootClassNames = rootClassNames.filter(e => e !== item)
+          }
+          this.$set(this.model, 'styles', Object.assign({}, this.model.styles, {
+            rootClassNames
+          }))
+        }
       }
     }
   }
-}
 </script>

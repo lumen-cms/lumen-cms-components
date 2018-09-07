@@ -19,22 +19,22 @@
   </v-layout>
 </template>
 <script>
-export default {
-  name: 'LcConfirmBtn',
-  props: {
-    label: String,
-    icon: String,
-    btnClass: String,
-    loading: {
-      type: Boolean,
-      default: false
+  export default {
+    name: 'LcConfirmBtn',
+    props: {
+      label: String,
+      icon: String,
+      btnClass: String,
+      loading: {
+        type: Boolean,
+        default: false
+      },
+      disabled: Boolean
     },
-    disabled: Boolean
-  },
-  data () {
-    return {
-      showConfirm: false
+    data () {
+      return {
+        showConfirm: false
+      }
     }
   }
-}
 </script>

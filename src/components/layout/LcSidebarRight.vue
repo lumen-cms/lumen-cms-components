@@ -23,20 +23,20 @@
 </template>
 
 <script>
-export default {
-  name: 'LcSidebarRight',
-  computed: {
-    drawer: {
-      get () {
-        return this.$store.state.lc.activeSidebarRight
+  export default {
+    name: 'LcSidebarRight',
+    computed: {
+      drawer: {
+        get () {
+          return this.$store.state.lc.activeSidebarRight
+        },
+        set (v) {
+          this.$store.commit('SET_SIDEBAR_RIGHT', v)
+        }
       },
-      set (v) {
-        this.$store.commit('SET_SIDEBAR_RIGHT', v)
+      logoPath () {
+        return this.$cms.logoPath // always use the desktop-logo for the sidebar
       }
-    },
-    logoPath () {
-      return this.$cms.logoPath // always use the desktop-logo for the sidebar
     }
   }
-}
 </script>

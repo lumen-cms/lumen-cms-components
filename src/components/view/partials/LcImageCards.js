@@ -48,6 +48,6 @@ export default {
           row: true,
           wrap: true
         }
-      }, galleryItems)])
+    }, galleryItems)])
   }
 }

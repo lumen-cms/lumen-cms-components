@@ -58,7 +58,7 @@
 
 <script>
 // Static rendered help content
-export default {
-  name: 'LcContentEditHelp'
-}
+  export default {
+    name: 'LcContentEditHelp'
+  }
 </script>

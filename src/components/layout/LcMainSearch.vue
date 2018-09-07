@@ -18,35 +18,35 @@
   </v-layout>
 </template>
 <script>
-import debounce from 'lodash.debounce'
+  import debounce from 'lodash.debounce'
 
-export default {
-  name: 'LcMainSearch',
-  data () {
-    return {
-      mobileSearchActive: false
-    }
-  },
-  watch: {
-    mobileSearchActive (v) {
-      this.$emit('mobileSearchActive', v)
-    }
-  },
-  computed: {
-    isMobile () {
-      return this.$vuetify.breakpoint[this.$cms.toolbarSearchMobileBreakpoint]
+  export default {
+    name: 'LcMainSearch',
+    data () {
+      return {
+        mobileSearchActive: false
+      }
     },
-    searchText: {
-      get () {
-        return this.$store.state.lc.mainSearch
+    watch: {
+      mobileSearchActive (v) {
+        this.$emit('mobileSearchActive', v)
+      }
+    },
+    computed: {
+      isMobile () {
+        return this.$vuetify.breakpoint[this.$cms.toolbarSearchMobileBreakpoint]
       },
-      set: debounce(function (value) {
-        this.$store.dispatch('setMainSearch', value)
-        this.$emit('input', value)
-      }, 500)
+      searchText: {
+        get () {
+          return this.$store.state.lc.mainSearch
+        },
+        set: debounce(function (value) {
+          this.$store.dispatch('setMainSearch', value)
+          this.$emit('input', value)
+        }, 500)
+      }
     }
   }
-}
 </script>
 <style>
 

@@ -41,22 +41,22 @@
   </div>
 </template>
 <script>
-import contentEditMixin from '../../../../mixins/contentEditMixin'
-import styles from '../../../../util/contentEditStyleDefinitions'
-import LcMaterialIconPicker from '../../LcMaterialIconPicker'
+  import contentEditMixin from '../../../../mixins/contentEditMixin'
+  import styles from '../../../../util/contentEditStyleDefinitions'
+  import LcMaterialIconPicker from '../../LcMaterialIconPicker'
 
-export default {
-  name: 'LcDividerEdit',
-  components: { LcMaterialIconPicker },
-  mixins: [contentEditMixin],
-  inputFields: {
-    styles:
+  export default {
+    name: 'LcDividerEdit',
+    components: { LcMaterialIconPicker },
+    mixins: [contentEditMixin],
+    inputFields: {
+      styles:
         [styles.dividerWidth, styles.textColor, styles.backgroundColor, styles.backgroundOpacity, styles.margin, styles.padding, styles.visibilityBreakpoint]
-  },
-  data () {
-    return {
-      materialIcons: []
+    },
+    data () {
+      return {
+        materialIcons: []
+      }
     }
   }
-}
 </script>

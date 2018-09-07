@@ -8,15 +8,15 @@
   </v-btn>
 </template>
 <script>
-export default {
-  name: 'LcTriggerSaveBtn',
-  props: {
-    icon: {
-      type: String
-    },
-    text: {
-      type: String
+  export default {
+    name: 'LcTriggerSaveBtn',
+    props: {
+      icon: {
+        type: String
+      },
+      text: {
+        type: String
+      }
     }
   }
-}
 </script>

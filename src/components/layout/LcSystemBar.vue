@@ -10,10 +10,10 @@
   </v-system-bar>
 </template>
 <script>
-export default {
-  name: 'LcSystemBar',
-  props: {
-    lightsOut: Boolean
+  export default {
+    name: 'LcSystemBar',
+    props: {
+      lightsOut: Boolean
+    }
   }
-}
 </script>

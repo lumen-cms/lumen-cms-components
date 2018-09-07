@@ -18,49 +18,49 @@
 </template>
 
 <script>
-import deleteContentGql from '../../../gql/content/deleteContent.gql'
-import updateArticleGql from '../../../gql/article/updateArticleModif.gql'
+  import deleteContentGql from '../../../gql/content/deleteContent.gql'
+  import updateArticleGql from '../../../gql/article/updateArticleModif.gql'
 
-export default {
-  name: 'LcContentDeleteDialog',
-  props: {
-    id: String | null,
-    pageProps: Object
-  },
-  data () {
-    return {
-      loading: false
-    }
-  },
-  computed: {
-    isShown () {
-      return this.$store.getters.getDialogType === 'delete'
-    }
-  },
-  methods: {
-    hideDialog () {
-      this.$store.dispatch('setContentEditDialogData', {})
+  export default {
+    name: 'LcContentDeleteDialog',
+    props: {
+      id: String | null,
+      pageProps: Object
     },
-    async onDelete () {
-      const dialogData = this.$store.getters.getDialogData
-      const id = dialogData.id
-      this.$store.commit('SET_CMS_LOADING', true)
-      this.loading = true
-      const mutationPromises = [
-        this.mutateGql({
-          mutation: deleteContentGql,
-          variables: { id: id }
-        }),
-        this.mutateGql({
-          mutation: updateArticleGql,
-          variables: { id: this.pageProps.articleId, modified: new Date() }
-        })
-      ]
-      await Promise.all(mutationPromises)
-      this.loading = true
-      this.$store.commit('SET_CMS_LOADING', false)
-      this.hideDialog()
+    data () {
+      return {
+        loading: false
+      }
+    },
+    computed: {
+      isShown () {
+        return this.$store.getters.getDialogType === 'delete'
+      }
+    },
+    methods: {
+      hideDialog () {
+        this.$store.dispatch('setContentEditDialogData', {})
+      },
+      async onDelete () {
+        const dialogData = this.$store.getters.getDialogData
+        const id = dialogData.id
+        this.$store.commit('SET_CMS_LOADING', true)
+        this.loading = true
+        const mutationPromises = [
+          this.mutateGql({
+            mutation: deleteContentGql,
+            variables: { id: id }
+          }),
+          this.mutateGql({
+            mutation: updateArticleGql,
+            variables: { id: this.pageProps.articleId, modified: new Date() }
+          })
+        ]
+        await Promise.all(mutationPromises)
+        this.loading = true
+        this.$store.commit('SET_CMS_LOADING', false)
+        this.hideDialog()
+      }
     }
   }
-}
 </script>

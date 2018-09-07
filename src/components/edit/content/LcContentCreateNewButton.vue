@@ -7,39 +7,39 @@
 
 <script>
 
-export default {
-  name: 'LcContentCreateNewButton',
-  props: {
-    previousElementSorting: {
-      type: Number,
-      required: true
+  export default {
+    name: 'LcContentCreateNewButton',
+    props: {
+      previousElementSorting: {
+        type: Number,
+        required: true
+      },
+      layoutColumn: {
+        type: String | null,
+        'default': null
+      },
+      layoutIndex: {
+        type: Number | null
+      },
+      contentLayoutElementId: String | null,
+      pageContents: Array,
+      pageProps: Object,
+      isNewLayoutCol: {
+        type: Boolean,
+        'default': false
+      }
     },
-    layoutColumn: {
-      type: String | null,
-      'default': null
-    },
-    layoutIndex: {
-      type: Number | null
-    },
-    contentLayoutElementId: String | null,
-    pageContents: Array,
-    pageProps: Object,
-    isNewLayoutCol: {
-      type: Boolean,
-      'default': false
-    }
-  },
-  methods: {
-    onBtnClick () {
-      this.$store.dispatch(
-        'setContentEditDialogData',
-        Object.assign({}, this.$props, {
-          dialogType: 'create'
-        })
-      )
+    methods: {
+      onBtnClick () {
+        this.$store.dispatch(
+          'setContentEditDialogData',
+          Object.assign({}, this.$props, {
+            dialogType: 'create'
+          })
+        )
+      }
     }
   }
-}
 </script>
 
 <style scoped lang="stylus">

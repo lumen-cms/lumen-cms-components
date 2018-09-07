@@ -20,46 +20,46 @@
 </template>
 
 <script>
-export default {
-  name: 'LcUploadField',
-  props: {
-    accept: {
-      type: String,
-      'default': '*'
+  export default {
+    name: 'LcUploadField',
+    props: {
+      accept: {
+        type: String,
+        'default': '*'
+      },
+      disabled: {
+        type: Boolean,
+        'default': false
+      }
     },
-    disabled: {
-      type: Boolean,
-      'default': false
-    }
-  },
-  data () {
-    return {
-      file: null,
-      fileName: '',
-      uploading: false,
-      model: {}
-    }
-  },
-  methods: {
-    onFileChange (ev) {
-      if (!ev) return
-      const fileInput = this.$refs.fileInput.$el.querySelector('input')
-      this.file = fileInput.files.length ? fileInput.files[0] : null
+    data () {
+      return {
+        file: null,
+        fileName: '',
+        uploading: false,
+        model: {}
+      }
     },
-    async uploadFile () {
-      const endpoint = `https://api.graph.cool/file/v1/${process.env.VUE_APP_GRAPHQL_PROJECT_ID}`
-      const data = new FormData()
-      data.append('data', this.file)
+    methods: {
+      onFileChange (ev) {
+        if (!ev) return
+        const fileInput = this.$refs.fileInput.$el.querySelector('input')
+        this.file = fileInput.files.length ? fileInput.files[0] : null
+      },
+      async uploadFile () {
+        const endpoint = `https://api.graph.cool/file/v1/${process.env.VUE_APP_GRAPHQL_PROJECT_ID}`
+        const data = new FormData()
+        data.append('data', this.file)
 
-      this.uploading = true
-      const response = await fetch(endpoint, { method: 'POST', body: data })
-      const responseData = await response.json()
-      this.uploading = false
-      this.file = null
-      this.model = responseData.id
+        this.uploading = true
+        const response = await fetch(endpoint, { method: 'POST', body: data })
+        const responseData = await response.json()
+        this.uploading = false
+        this.file = null
+        this.model = responseData.id
 
-      this.$emit('file-uploaded', { responseData })
+        this.$emit('file-uploaded', { responseData })
+      }
     }
   }
-}
 </script>

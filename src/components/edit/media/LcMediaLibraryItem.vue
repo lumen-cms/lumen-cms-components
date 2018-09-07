@@ -38,63 +38,63 @@
   </v-card>
 </template>
 <script>
-import imageHelperMixin from '../../../mixins/imageHelperMixin'
-import LcImage from '../../view/partials/LcImage'
+  import imageHelperMixin from '../../../mixins/imageHelperMixin'
+  import LcImage from '../../view/partials/LcImage'
 
-export default {
-  name: 'LcMediaLibraryItem',
-  components: { LcImage },
-  mixins: [imageHelperMixin],
-  props: {
-    item: Object,
-    size: Number,
-    active: Boolean,
-    isFixedActive: Boolean
-  },
-  data () {
-    return {
-      show: false,
-      edit: false,
-      loading: false,
-      model: Object.assign({}, this.item)
-    }
-  },
-  computed: {
-    isEditorImage () {
-      const name = this.item.name
-      const nameParts = name.split('.')
-      return nameParts.length === 3 && nameParts[0] === 'ed-editable-image'
+  export default {
+    name: 'LcMediaLibraryItem',
+    components: { LcImage },
+    mixins: [imageHelperMixin],
+    props: {
+      item: Object,
+      size: Number,
+      active: Boolean,
+      isFixedActive: Boolean
     },
-    used () {
-      const item = this.item
-      return item._mediaListImagesMeta.count + item._fileReferencesMeta.count + item._mediaFilesMeta.count
-    },
-    height () {
-      const heights = {
-        2: 100,
-        3: 150,
-        4: 200,
-        6: 250
+    data () {
+      return {
+        show: false,
+        edit: false,
+        loading: false,
+        model: Object.assign({}, this.item)
       }
-      return heights[this.size]
     },
-    src () {
-      const file = this.getFileAttrs({ file: this.item }, 'x' + this.height)
-      return file.src
-    }
-  },
-  methods: {
-    hideMenu () {
-      this.edit = false
+    computed: {
+      isEditorImage () {
+        const name = this.item.name
+        const nameParts = name.split('.')
+        return nameParts.length === 3 && nameParts[0] === 'ed-editable-image'
+      },
+      used () {
+        const item = this.item
+        return item._mediaListImagesMeta.count + item._fileReferencesMeta.count + item._mediaFilesMeta.count
+      },
+      height () {
+        const heights = {
+          2: 100,
+          3: 150,
+          4: 200,
+          6: 250
+        }
+        return heights[this.size]
+      },
+      src () {
+        const file = this.getFileAttrs({ file: this.item }, 'x' + this.height)
+        return file.src
+      }
     },
-    toggleLoading () {
-      this.loading = !this.loading
-    },
-    onItemSelect () {
-      this.$emit('selected', this.item)
+    methods: {
+      hideMenu () {
+        this.edit = false
+      },
+      toggleLoading () {
+        this.loading = !this.loading
+      },
+      onItemSelect () {
+        this.$emit('selected', this.item)
+      }
     }
   }
-}
 </script>
 <style>
   .media-library-wrap .card.active {

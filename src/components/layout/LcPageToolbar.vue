@@ -64,67 +64,67 @@
 </template>
 
 <script>
-export default {
-  name: 'LcPageToolbar',
-  props: {
-    showSearch: {
-      type: Boolean,
-      default: false
+  export default {
+    name: 'LcPageToolbar',
+    props: {
+      showSearch: {
+        type: Boolean,
+        default: false
+      },
+      clippedRight: {
+        type: Boolean,
+        default: false
+      },
+      hideExtensionTemplate: {
+        type: Boolean,
+        default: false
+      },
+      hideToolbarRenderer: {
+        type: Boolean
+      }
     },
-    clippedRight: {
-      type: Boolean,
-      default: false
+    data () {
+      return {
+        mobileSearchActive: false,
+        flat: false,
+        dark: this.darkToolbar,
+        scrolledDown: false
+      }
     },
-    hideExtensionTemplate: {
-      type: Boolean,
-      default: false
-    },
-    hideToolbarRenderer: {
-      type: Boolean
-    }
-  },
-  data () {
-    return {
-      mobileSearchActive: false,
-      flat: false,
-      dark: this.darkToolbar,
-      scrolledDown: false
-    }
-  },
-  mounted () {
-    this.onScroll()
-  },
-  watch: {
-    '$store.state.lc.hasJumbotron' () {
-      if (!process.browser) return
+    mounted () {
       this.onScroll()
     },
-    $route () {
-      if (!process.browser) return
-      this.onScroll()
-    }
-  },
-  computed: {
-    hasExtension () {
-      return this.$cms.pageToolbarExtension
+    watch: {
+      '$store.state.lc.hasJumbotron' () {
+        if (!process.browser) return
+        this.onScroll()
+      },
+      $route () {
+        if (!process.browser) return
+        this.onScroll()
+      }
     },
-    jumbo () {
-      return this.$store.state.lc.hasJumbotron
+    computed: {
+      hasExtension () {
+        return this.$cms.pageToolbarExtension
+      },
+      jumbo () {
+        return this.$store.state.lc.hasJumbotron
+      },
+      transparentToolbar () {
+        return this.jumbo && !this.scrolledDown
+      },
+      isDark () {
+        return this.$cms.pageToolbarDark || this.dark || this.transparentToolbar
+      }
     },
-    transparentToolbar () {
-      return this.jumbo && !this.scrolledDown
-    },
-    isDark () {
-      return this.$cms.pageToolbarDark || this.dark || this.transparentToolbar
-    }
-  },
-  methods: {
-    onScroll () {
-      if (!process.browser) return
-      this.scrolledDown = window && window.pageYOffset >= 128
+    methods: {
+      onScroll () {
+        if (!process.browser) return
+        this.scrolledDown = window && window.pageYOffset >= 128
+      }
     }
   }
-}
 </script>
 
 <style lang="stylus">
